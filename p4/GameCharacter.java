@@ -3,6 +3,8 @@
 public abstract class GameCharacter {
     protected String name;
     protected int health;
+    protected int r;
+    protected int c;
 
     public String getName() {
         return name;
@@ -19,10 +21,25 @@ public abstract class GameCharacter {
         this.health = health;
     }
 
+    public void makeMove(int r, int c){
+        // ValorWorld will check if we can move or not
+        this.r = r;
+        this.c = c;
+
+    }
+
     public boolean isAlive(){
         if (health==0)
             return false;
         else
             return true;
     }
-}
+
+    public int getR(){
+        return this.r;
+    }
+
+    pubic int getC()
+    {
+        return this.c;
+    }}

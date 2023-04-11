@@ -13,9 +13,6 @@ public class Hero extends GameCharacter{
 //    private Armor armor;
 //    private HeroInventory heroInventory;
 
-    public int row;
-    public int col;
-    //todo For now, add position to hero in constructor
     public Hero(String name, int row, int col, int mana, int strength, int agility, int dexterity, int money, int experience) {
         this.name = name;
         this.mana = mana;
