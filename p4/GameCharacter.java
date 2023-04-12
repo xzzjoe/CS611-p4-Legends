@@ -16,30 +16,31 @@ public abstract class GameCharacter {
 
     public void setHealth(int health) {
         //minimal health is 0
-        if (health<0)
-            health=0;
+        if (health < 0)
+            health = 0;
         this.health = health;
     }
 
-    public void makeMove(int r, int c){
+    //setPos is used when moving characters around or init a character position
+    public void setPos(int r, int c) {
         // ValorWorld will check if we can move or not
         this.r = r;
         this.c = c;
 
     }
 
-    public boolean isAlive(){
-        if (health==0)
+    public boolean isAlive() {
+        if (health == 0)
             return false;
         else
             return true;
     }
 
-    public int getR(){
+    public int getR() {
         return this.r;
     }
 
-    pubic int getC()
-    {
+    public int getC() {
         return this.c;
-    }}
+    }
+}

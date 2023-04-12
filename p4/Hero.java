@@ -1,4 +1,6 @@
-import static java.lang.Math.round;
+import java.lang.Math;
+
+import static java.lang.Math.*;
 //TODO temporarily non-abstract
 
 public class Hero extends GameCharacter{
@@ -9,8 +11,8 @@ public class Hero extends GameCharacter{
     protected int money;
     protected int experience;
     protected int level;
-//    private Weapon weapon;
-//    private Armor armor;
+    private Weapon weapon;
+    private Armor armor;
 //    private HeroInventory heroInventory;
 
     public Hero(String name, int row, int col, int mana, int strength, int agility, int dexterity, int money, int experience) {
@@ -163,6 +165,21 @@ public class Hero extends GameCharacter{
         //TODO use formula, defence etc.
         System.out.println(Main.ANSI_RED+name+" received "+damage+"damage!"+Main.ANSI_RESET);
         setHealth(getHealth()-damage);
+    }
+
+    public boolean sameLane(Hero h){
+        if(this.r == h.getR() || this.r + 1 == h.getR() || this.r - 1 == h.getR()){
+            return true;
+        }
+        return false;
+    }
+
+    public int distance(GameCharacter c){
+        //l2 distance between two heroes
+        double rDiff =(double)(c.r - this.r);
+        double cDiff = (double)(c.c - this.c);
+        int dist = (int)floor(sqrt((pow(rDiff, 2.0) + pow(cDiff, 2.0))));
+        return dist;
     }
 
     /* Advanced battle
