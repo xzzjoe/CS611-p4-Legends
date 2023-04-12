@@ -4,8 +4,7 @@ public class Weapon extends Item implements Equipabble{
     private int requiredHands;
 
     public Weapon(String name, int cost, int level, int damage, int requiredHands) {
-        this.name = name;
-        this.cost = cost;
+        super(name, cost);
         this.level = level;
         this.damage = damage;
         this.requiredHands = requiredHands;
@@ -43,4 +42,13 @@ public class Weapon extends Item implements Equipabble{
     }
 
 
+    @Override
+    public void equip() {
+
+    }
+
+    @Override
+    public void unequip() {
+
+    }
 }

@@ -16,7 +16,7 @@ public class Item implements Tradeable{
     }
 
     public int getValue() {
-        return this.value;
+        return this.cost;
     }
 
     public int purchasePrice(){
@@ -24,10 +24,10 @@ public class Item implements Tradeable{
     }
 
     public int sellPrice(){
-        return this.value/2;
+        return this.cost/2;
     }
     public String heroSell() {
-        String ret = this.name + " can be sold for " + (this.value/2);
+        String ret = this.name + " can be sold for " + (this.cost/2);
         return ret;
     }
 

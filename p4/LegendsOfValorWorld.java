@@ -24,7 +24,7 @@ public class LegendsOfValorWorld extends World {
         ArrayList<Space> tempSpaces = new ArrayList<>();
 
         for (int i = 0; i < koulous; i++) {
-            tempSpaces.add(new Inaccessible());
+            tempSpaces.add(new Koulou());
         }
         for (int i = 0; i < caves; i++) {
             tempSpaces.add(new Cave());
@@ -63,7 +63,7 @@ public class LegendsOfValorWorld extends World {
         //print a line of horizontal border at the top
         System.out.print("+");
         for (int m = 0; m < board.length; m++) {
-            System.out.print("-+");
+            System.out.print("---+");
         }
         System.out.println();
         //now print each line with another line of border
@@ -72,21 +72,21 @@ public class LegendsOfValorWorld extends World {
             System.out.print("|");
             for (int j = 0; j < board[i].length; j++) {
                 //check if hero is on this Space
-                board[i][j].toString();
+                System.out.print(board[i][j].toString());
                 System.out.print("|");
             }
             System.out.println();
             //with another line of horizontal border
             System.out.print("+");
             for (int n = 0; n < board.length; n++) {
-                System.out.print("-+");
+                System.out.print("---+");
             }
             System.out.println();
         }
     }
-    // Other MHWorld specific methods here
+    // Other LVWorld specific methods here
     public boolean isValidMove(int row, int column){
-        //todo combine this part with checking other monster/hero position
+        //Todo combine this part with checking other monster/hero position
         //inside the board
         if (row >= 0 && row < board.length && column >= 0 && column < board[0].length)
             //& not an Obstacle:

@@ -58,6 +58,7 @@ public class LegendsOfValorGame extends Game {
                 case 0:
                     chosenHeroes.get(0).setStartingLane('t');
                     chosenHeroes.get(0).respawn();
+                    //move:
                     break;
                 //mid lane hero
                 case 1:
@@ -179,7 +180,21 @@ public class LegendsOfValorGame extends Game {
 
     private void heroTurn(Hero h) {
         System.out.println("Hero "+h.getName()+"'s turn, to be implemented");
-        char input = scanner.next().charAt(0);
+
+        boolean turnTaken = false;
+        while (!turnTaken) {
+            System.out.println(Main.ANSI_GREEN + "It's " + h.getName() + "'s turn.\n" +
+                    "Please choose an action: \n" +
+                    "0. Move\n" +
+                    "1. Attack\n" +
+                    "2. Cast spell\n" +
+                    "3. Use potion\n" +
+                    "4. Equip item\n" +
+                    "5. Display stats (won't consume this turn)\n" + Main.ANSI_RESET);
+            scanner.next();
+
+            turnTaken = true;
+        }
     }
 
     private void monsterTurn(Monster m) {
