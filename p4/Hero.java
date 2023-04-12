@@ -1,9 +1,10 @@
 import java.lang.Math;
+import java.util.Random;
 
 import static java.lang.Math.*;
 //TODO temporarily non-abstract
 
-public class Hero extends GameCharacter implements Fightable{
+public class Hero extends GameCharacter{
     protected int mana;
     protected int strength;
     protected int agility;
@@ -11,6 +12,7 @@ public class Hero extends GameCharacter implements Fightable{
     protected int money;
     protected int experience;
     protected int level;
+    protected int reviveCounter;
     private Weapon weapon;
 //    private Armor armor;
     //startingLane can be 't' 'm' 'b', storing the original lane of a hero
@@ -25,6 +27,7 @@ public class Hero extends GameCharacter implements Fightable{
         this.dexterity = dexterity;
         this.money = money;
         this.experience = experience;
+        this.reviveCounter = -1;
         // level = experience % 10 +1
         // health = level*100
         this.level = (experience/10)+1;

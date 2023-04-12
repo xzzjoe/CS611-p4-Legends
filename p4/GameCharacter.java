@@ -1,6 +1,6 @@
 //TODO same with previous
 
-public abstract class GameCharacter {
+public abstract class GameCharacter implements Fightable {
     protected String name;
     protected int health;
     protected int r;

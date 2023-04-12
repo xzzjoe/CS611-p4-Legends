@@ -1,6 +1,6 @@
 public interface Consumbale {
 
-    public abstract void use();
+    public abstract void consume();
 
 
 
