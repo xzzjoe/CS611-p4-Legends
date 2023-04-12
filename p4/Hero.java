@@ -3,7 +3,7 @@ import java.lang.Math;
 import static java.lang.Math.*;
 //TODO temporarily non-abstract
 
-public class Hero extends GameCharacter{
+public class Hero extends GameCharacter implements Fightable{
     protected int mana;
     protected int strength;
     protected int agility;
