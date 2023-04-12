@@ -9,7 +9,7 @@ public abstract class Space {
     }
     public void greet(GameCharacter target){
         System.out.println("This is a space. For debugging. This line shouldn't be printed");
-    };
+    }
 
     public void addHero(Hero h){ this.h = h;}
 

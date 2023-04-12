@@ -4,7 +4,6 @@ import java.util.Random;
 public class LegendsOfValorWorld extends World {
 
     public LegendsOfValorWorld(int rows, int cols) {
-        super(rows, cols);
         board = new Space[rows][cols];
         generateBoard(rows, cols);
     }
@@ -71,10 +70,7 @@ public class LegendsOfValorWorld extends World {
             System.out.print("|");
             for (int j = 0; j < board[i].length; j++) {
                 //check if hero is on this Space
-                if(i==heroRow && j==heroCol)
-                    System.out.print('H');
-                else
-                    System.out.print(board[i][j].mark);
+                board[i][j].toString();
                 System.out.print("|");
             }
             System.out.println();
@@ -104,20 +100,45 @@ public class LegendsOfValorWorld extends World {
 
     public void checkMarket(Hero hero) {
         //check current position is a market
-        if(board[hero.getRow()][hero.getCol()].getClass()!=Nexus.class){
+        if(board[hero.getR()][hero.getC()].getClass()!=Nexus.class){
             System.out.println("This space is not a market!");
         }
         else{
-            board[hero.getRow()][hero.getCol()].greetHeroTeam(hero);
+            board[hero.getR()][hero.getC()].greetHeroTeam(hero);
         }
     }
     public boolean checkCommon(Hero hero){
         //check current position is a Common space
-        if(board[hero.getRow()][hero.getCol()].getClass()!=Plain.class){
+        if(board[hero.getR()][hero.getC()].getClass()!=Plain.class){
             return false;
         }
         else{
             return true;
         }
     }
+    public ArrayList<GameCharacter> inRange(GameCharacter c){
+        ArrayList<GameCharacter> retList = new ArrayList<GameCharacter>();
+        int currR = c.getR();
+        int currC = c.getC();
+        if(c instanceof Hero){
+            for(int iterR = -1; iterR < 2; iterR ++){
+                int newR = currR + iterR;
+                if(newR  >= this.board.length || newR < 0){
+                    continue;
+                }
+                for(iterC = -1; iterC < 2; iterC ++){
+                    int newC = currC + iterC;
+                    if(newC  >= this.board[0].length || newC < 0){
+                        continue;
+                    }
+                    
+                }
+            }
+        }
+        else{
+
+        }
+
+    }
+
 }
