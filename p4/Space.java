@@ -3,13 +3,7 @@ public abstract class Space {
     protected Hero h;
     protected Monster m;
 
-    public Hero getH() {
-        return h;
-    }
 
-    public Monster getM() {
-        return m;
-    }
 
     public Space(){
         this.h = null;
@@ -19,6 +13,13 @@ public abstract class Space {
         System.out.println("This is a space. For debugging. This line shouldn't be printed");
     }
 
+    public Hero getH() {
+        return h;
+    }
+
+    public Monster getM() {
+        return m;
+    }
     public void addHero(Hero h){ this.h = h;}
 
 

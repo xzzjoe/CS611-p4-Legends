@@ -162,6 +162,7 @@ public class LegendsOfValorWorld extends World {
                 }
             }
         }
+        return retList;
 
     }
 
