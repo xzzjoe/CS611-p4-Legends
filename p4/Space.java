@@ -3,6 +3,14 @@ public abstract class Space {
     protected Hero h;
     protected Monster m;
 
+    public Hero getH() {
+        return h;
+    }
+
+    public Monster getM() {
+        return m;
+    }
+
     public Space(){
         this.h = null;
         this.m = null;

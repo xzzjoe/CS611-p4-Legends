@@ -104,7 +104,7 @@ public class LegendsOfValorWorld extends World {
             System.out.println("This space is not a market!");
         }
         else{
-            board[hero.getR()][hero.getC()].greetHeroTeam(hero);
+            board[hero.getR()][hero.getC()].addHero(hero);
         }
     }
     public boolean checkCommon(Hero hero){
@@ -131,12 +131,36 @@ public class LegendsOfValorWorld extends World {
                     if(newC  >= this.board[0].length || newC < 0){
                         continue;
                     }
-                    
+                    Space currSpace = board[newR][newC];
+                    if (currSpace instanceof Inacessible){
+                        continue;
+                    }
+                    if (currSpace.getM() != null){
+                        retList.add(currSpace.getM());
+                    }
                 }
             }
         }
         else{
-
+            for(int iterR = -1; iterR < 2; iterR ++){
+                int newR = currR + iterR;
+                if(newR  >= this.board.length || newR < 0){
+                    continue;
+                }
+                for(iterC = -1; iterC < 2; iterC ++){
+                    int newC = currC + iterC;
+                    if(newC  >= this.board[0].length || newC < 0){
+                        continue;
+                    }
+                    Space currSpace = board[newR][newC];
+                    if (currSpace instanceof Inacessible){
+                        continue;
+                    }
+                    if (currSpace.getH() != null){
+                        retList.add(currSpace.getH());
+                    }
+                }
+            }
         }
 
     }
