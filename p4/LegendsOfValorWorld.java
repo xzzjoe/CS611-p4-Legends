@@ -4,6 +4,7 @@ import java.util.Random;
 public class LegendsOfValorWorld extends World {
 
     public LegendsOfValorWorld(int rows, int cols) {
+        super(rows, cols);
         board = new Space[rows][cols];
         generateBoard(rows, cols);
     }
@@ -70,7 +71,7 @@ public class LegendsOfValorWorld extends World {
             System.out.print("|");
             for (int j = 0; j < board[i].length; j++) {
                 //check if hero is on this Space
-                board[i][j].toString();
+                System.out.print(board[i][j].toString());
                 System.out.print("|");
             }
             System.out.println();
@@ -126,13 +127,13 @@ public class LegendsOfValorWorld extends World {
                 if(newR  >= this.board.length || newR < 0){
                     continue;
                 }
-                for(iterC = -1; iterC < 2; iterC ++){
+                for(int iterC = -1; iterC < 2; iterC ++){
                     int newC = currC + iterC;
                     if(newC  >= this.board[0].length || newC < 0){
                         continue;
                     }
                     Space currSpace = board[newR][newC];
-                    if (currSpace instanceof Inacessible){
+                    if (currSpace instanceof Inaccessible){
                         continue;
                     }
                     if (currSpace.getM() != null){
@@ -147,13 +148,13 @@ public class LegendsOfValorWorld extends World {
                 if(newR  >= this.board.length || newR < 0){
                     continue;
                 }
-                for(iterC = -1; iterC < 2; iterC ++){
+                for(int iterC = -1; iterC < 2; iterC ++){
                     int newC = currC + iterC;
                     if(newC  >= this.board[0].length || newC < 0){
                         continue;
                     }
                     Space currSpace = board[newR][newC];
-                    if (currSpace instanceof Inacessible){
+                    if (currSpace instanceof Inaccessible){
                         continue;
                     }
                     if (currSpace.getH() != null){
