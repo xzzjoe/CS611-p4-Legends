@@ -9,11 +9,14 @@ public class Hero extends GameCharacter{
     protected int money;
     protected int experience;
     protected int level;
+    //startingLane can be 't' 'm' 'b', storing the original lane of a hero
+    protected char startingLane;
 //    private Weapon weapon;
+
 //    private Armor armor;
 //    private HeroInventory heroInventory;
 
-    public Hero(String name, int row, int col, int mana, int strength, int agility, int dexterity, int money, int experience) {
+    public Hero(String name, int mana, int strength, int agility, int dexterity, int money, int experience) {
         this.name = name;
         this.mana = mana;
         this.strength = strength;
@@ -146,18 +149,18 @@ public class Hero extends GameCharacter{
             health = level*100;
         }
     }
-
-    public void attack(Monster target) {
-        //TODO use formula, defence etc.
-        // Implement hero attack logic
-        System.out.println(name+" attacked "+target.getName());
-        if(weapon!=null){
-            target.takeDamage((int) round(strength*1.7) + weapon.getDamage());
-        }
-        else {
-            target.takeDamage((int) round(strength*1.7));
-        }
-    }
+//
+//    public void attack(Monster target) {
+//        //TODO use formula, defence etc.
+//        // Implement hero attack logic
+//        System.out.println(name+" attacked "+target.getName());
+//        if(weapon!=null){
+//            target.takeDamage((int) round(strength*1.7) + weapon.getDamage());
+//        }
+//        else {
+//            target.takeDamage((int) round(strength*1.7));
+//        }
+//    }
 
     public void takeDamage(int damage){
         //TODO use formula, defence etc.
@@ -244,5 +247,25 @@ public class Hero extends GameCharacter{
         this.experience = experience;
     }
 
+    public char getStartingLane() {
+        return startingLane;
+    }
+
+    public void setStartingLane(char startingLane) {
+        this.startingLane = startingLane;
+    }
+
+    public void respawn(){
+        this.r = 7;
+        if(this.startingLane=='t')
+            this.c = 0;
+        else if(this.startingLane=='b')
+            this.c = 3;
+        else
+            this.c = 6;
+        //todo default HP MP and other values
+        this.health = this.level*100;
+        this.mana = 100;
+    }
 }
 

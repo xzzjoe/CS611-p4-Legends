@@ -5,7 +5,7 @@ public abstract class Space {
 
     public Space(){
         this.h = null;
-        this.c = null;
+        this.m = null;
     }
     public void greet(GameCharacter target){
         System.out.println("This is a space. For debugging. This line shouldn't be printed");

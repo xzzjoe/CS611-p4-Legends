@@ -39,7 +39,8 @@ public abstract class GameCharacter {
         return this.r;
     }
 
-    pubic int getC()
+    public int getC()
     {
         return this.c;
-    }}
+    }
+}
