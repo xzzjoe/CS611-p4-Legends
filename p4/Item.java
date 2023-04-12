@@ -1,12 +1,12 @@
 
 public class Item implements Tradeable{
-    protected int value;
+    protected int cost;
     protected String name;
 
 
     public Item(String name, int val) {
 //		Value represent monetary value, stats for subclass use, can leave as 0 if no use
-        this.value = val;
+        this.cost = val;
         this.name = name;
     }
 
