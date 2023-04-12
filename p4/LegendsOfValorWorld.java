@@ -49,9 +49,10 @@ public class LegendsOfValorWorld extends World {
                     board[i][j] = new Inaccessible();
                 else if(i==0 || i==7)
                     board[i][j] = new Nexus();
-                else
+                else{
                     board[i][j] = tempSpaces.get(index);
-                index++;
+                    index++;
+                }
             }
         }
 
@@ -71,7 +72,7 @@ public class LegendsOfValorWorld extends World {
             System.out.print("|");
             for (int j = 0; j < board[i].length; j++) {
                 //check if hero is on this Space
-                System.out.print(board[i][j].toString());
+                board[i][j].toString();
                 System.out.print("|");
             }
             System.out.println();
