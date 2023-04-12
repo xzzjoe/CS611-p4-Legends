@@ -85,7 +85,9 @@ public class LegendsOfValorGame extends Game {
             //monsters start at their starting positions (1, 0), (4, 0), (7, 0)
             lvWorld.printBoard();
             //todo redesign main game loop
-
+            //todo test case for marketInventory
+            MarketInventory testM = new MarketInventory<>();
+            testM.displayItems(Potion.class);
             System.out.println("/************************************************/");
             System.out.println("This is round "+roundCounter+1);
             //1. loop through HeroTeam, call heroTurn()
@@ -204,11 +206,11 @@ public class LegendsOfValorGame extends Game {
     //a function to
     private boolean reachNexus(){
         for(Monster m: this.monsterTeam.getParty()){
-            if (m.getR()==7)
+            if (m.getR()==0)
                 return true;
         }
         for(Hero h:this.heroTeam.getParty()){
-            if (h.getR()==0)
+            if (h.getR()==7)
                 return true;
         }
         return false;
@@ -238,7 +240,22 @@ public class LegendsOfValorGame extends Game {
             if(this.monsterList.size()==0)
                 //read a new monsterList when the previous one became empty
                 readMonster();
-            this.monsterTeam.getParty().add(this.monsterList.get(0));
+            Monster chosen = this.monsterList.get(0);
+            this.monsterTeam.getParty().add(chosen);
+            //initialize monster starting position
+            switch (i){
+                //top lane
+                case 0:
+                    //
+                    break;
+                //mid lane
+                case 1:
+                    //
+                    break;
+                //bottom lane
+                case 2:
+                    break;
+            }
             this.monsterList.remove(0);
 
         }
