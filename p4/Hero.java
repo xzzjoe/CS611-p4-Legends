@@ -14,7 +14,7 @@ public class Hero extends GameCharacter{
     protected int level;
     protected int reviveCounter;
     private Weapon weapon;
-//    private Armor armor;
+    private Armor armor;
     //startingLane can be 't' 'm' 'b', storing the original lane of a hero
     protected char startingLane;
 //    private HeroInventory heroInventory;
@@ -166,14 +166,40 @@ public class Hero extends GameCharacter{
         }
     }
 
+    public double calcDogde() {
+        double res = Math.log(this.agility)/2;
+        return res;
+    }
     public void takeDamage(int damage){
         //TODO use formula, defence etc.
+        Random rand = new Random();
+        double chance = rand.nextDouble();
+        double dodgeChance = calcDogde();
+        System.out.println("Dodge chance for hero " + this.name  + " is " + dodgeChance);
+        if(chance < dodgeChance){
+            System.out.println("Hero " +this.name + "has dodged the incoming attack!");
+            return;
+        }
+        int trueDamage = damage - this.armor.getDamageReduction();
         System.out.println(Main.ANSI_RED+name+" received "+damage+"damage!"+Main.ANSI_RESET);
         setHealth(getHealth()-damage);
     }
 
-    @Override
-    public void attack(Fightable f) {
+
+    public boolean revive(){
+        //Return True if is alive/revived , false if dead
+        if(this.reviveCounter < 0){
+            return true;
+        }
+        else if(this.reviveCounter == 0){
+            this.reviveCounter = -1;
+            setHealth(100*level);
+            return true;
+        }
+        else{
+            reviveCounter--;
+            return false;
+        }
 
     }
 
