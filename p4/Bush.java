@@ -14,7 +14,7 @@ public class Bush extends Space{
 
     }
 
-    public int getBUff(){
+    public int getBuff(){
         return this.buff;
     }
 
