@@ -44,7 +44,11 @@ public abstract class Monster extends GameCharacter implements Fightable{
         if(!dodge()){
             //TODO use formula
             System.out.println(Main.ANSI_RED+name+" received "+damage+"damage!"+Main.ANSI_RESET);
-            setHealth(getHealth()-damage);
+            int trueDamage = damage - defense;
+            if(this.getHealth() <= trueDamage){
+                Main.slash.play();
+            }
+            setHealth(getHealth()-trueDamage);
         }
         else
             System.out.println("But "+name+" dodged it!");
