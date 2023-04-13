@@ -47,20 +47,20 @@ public class LegendsOfValorGame extends Game {
             switch (i){
                 //top lane hero
                 case 0:
-                    chosen.setStartingLane('t');
+                    chosen.setStartingLane('T');
                     chosen.respawn();
                     lvWorld.board[7][0].addHero(chosen);
                     //move:
                     break;
                 //mid lane hero
                 case 1:
-                    chosen.setStartingLane('m');
+                    chosen.setStartingLane('M');
                     chosen.respawn();
                     lvWorld.board[7][3].addHero(chosen);
                     break;
                 //bottom lane hero
                 case 2:
-                    chosen.setStartingLane('b');
+                    chosen.setStartingLane('B');
                     chosen.respawn();
                     lvWorld.board[7][6].addHero(chosen);
                     break;

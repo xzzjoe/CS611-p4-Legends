@@ -32,16 +32,16 @@ public abstract class Space {
     public String toString(){
         String ret;
         if(this.h != null & this.m != null){
-            ret =  Main.ANSI_BLUE + "H&M" + Main.ANSI_RESET;
+            ret =  Main.ANSI_BLUE + this.h.getStartingLane() + Main.ANSI_RESET + "&" + Main.ANSI_RED + "E" + Main.ANSI_RESET;
         }
         else if (this.h != null){
-            ret =  Main.ANSI_BLUE + " H " + Main.ANSI_RESET;
+            ret =  Main.ANSI_BLUE + " " + this.h.getStartingLane() + " " + Main.ANSI_RESET;
         }
         else if(this.m != null){
-            ret =  Main.ANSI_BLUE + " M " + Main.ANSI_RESET;
+            ret =  Main.ANSI_RED + " E " + Main.ANSI_RESET;
         }
         else{
-            ret = Main.ANSI_RED + " " + this.mark + " " + Main.ANSI_RESET;
+            ret = " " + this.mark + " ";
         }
         return ret;
     }
