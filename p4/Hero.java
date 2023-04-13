@@ -229,6 +229,7 @@ public abstract class Hero extends GameCharacter{
     public boolean revive(){
         //Return True if is alive/revived , false if dead
         if(this.reviveCounter < 0){
+            System.out.println("rcytfu");
             return false;
         }
         else if(this.reviveCounter == 0){
@@ -248,28 +249,31 @@ public abstract class Hero extends GameCharacter{
 
     //todo castSpell and usePotion on Hero side
 
-    /* Advanced battle
-    public void castSpell(Spell spell, Monster target) {
-        if (spell.getLevel()>level &&spell.getMana_cost()>mana) {
-            System.out.println("Does not satisfy requirements to use");
+    // Advanced battle
+    public boolean castSpell(Spell spell, Monster target) {
+        if(spell.cast(this, target)){
+            System.out.println(Main.ANSI_YELLOW);
+            removeFromInventory(heroInventory.itemList.indexOf(spell));
+            System.out.println(Main.ANSI_RESET);
+            return true;
         }
         else{
-            System.out.println(Main.ANSI_YELLOW+name+" casted a "+ spell.getName()+" on " +target.getName()+Main.ANSI_RESET);
-            //todo spell effect
-            target.takeDamage(spell.damage);
+            return false;
         }
     }
 
-    public void usePotion(Potion potion, Hero target) {
-        if (potion.getLevel()>level) {
-            System.out.println("Does not satisfy requirements to use");
-        }else {
-            System.out.println(Main.ANSI_YELLOW+name + " used a " + potion.getName() + " on " + target.getName()+Main.ANSI_RESET);
-            //todo potion effect
-            target.setHealth(target.getHealth()+potion.getAttribute_increase());
+    public boolean usePotion(Potion potion) {
+        if(potion.consume(this)){
+            System.out.println(Main.ANSI_YELLOW);
+            removeFromInventory(heroInventory.itemList.indexOf(potion));
+            System.out.println(Main.ANSI_RESET);
+            return true;
+        }
+        else{
+            return false;
         }
     }
-    */
+
 
 
     public void setReviveCounter(int rounds){

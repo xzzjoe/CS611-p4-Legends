@@ -175,7 +175,7 @@ public class LegendsOfValorWorld extends World {
 
     public boolean teleport(Hero from, Hero to){
         Space oldSpace = board[from.getR()][from.getC()];
-        if(Math.abs(from.getC() - to.getC()) > 1){
+        if(Math.abs(from.getC() - to.getC()) <= 1){
             System.out.println("Two heroes in the same lane, cannot teleport");
             return false;
         }

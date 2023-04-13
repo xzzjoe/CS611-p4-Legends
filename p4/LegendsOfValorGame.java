@@ -83,10 +83,6 @@ public class LegendsOfValorGame extends Game {
             //heroes start at their starting positions (0, 7), (3, 7), (6, 7)
             //monsters start at their starting positions (1, 0), (4, 0), (7, 0)
             lvWorld.printBoard();
-            //todo redesign main game loop
-//            //todo test case for marketInventory
-//            MarketInventory testM = new MarketInventory<>();
-//            testM.displayItems(Potion.class);
             System.out.println("/************************************************/");
             System.out.println("This is round "+ roundCounter);
             //1. loop through HeroTeam, call heroTurn()
@@ -163,7 +159,7 @@ public class LegendsOfValorGame extends Game {
             //scan next int input 0~7
             int choice = -1;
             do {
-                System.out.printf("Enter a number between %d and %d: ", 0, 8);
+                System.out.printf("Enter a number between %d and %d: ", 0, 9);
                 while (!scanner.hasNextInt()) {
                     String input = scanner.next();
                     System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, 9);
@@ -183,13 +179,13 @@ public class LegendsOfValorGame extends Game {
                 case 2:
                     turnTaken = heroEquip(h);
                     break;
-                //todo potion
+                //potion
                 case 3:
-                    turnTaken = true;
+                    turnTaken = heroUsePotion(h);
                     break;
-                //todo spell
+                //spell
                 case 4:
-                    turnTaken = true;
+                    turnTaken = heroUseSpell(h);
                     break;
                 //info
                 case 5:
@@ -197,11 +193,11 @@ public class LegendsOfValorGame extends Game {
                     break;
                 //teleport
                 case 6:
-                    turnTaken = heroTeleport();
+                    turnTaken = heroTeleport(h);
                     break;
                 //recall
                 case 7:
-                    turnTaken = heroRecall;
+                    turnTaken = heroRecall(h);
                     break;
                 //market nexus
                 case 8:
@@ -310,6 +306,7 @@ public class LegendsOfValorGame extends Game {
                 }
                 choice = scanner.nextInt();
             } while (choice < 0 || choice > targetList.size()-1);
+            //retrieve the target monster
             Monster m = (Monster) targetList.get(choice);
             h.attack(m);
             if(!m.isAlive()){
@@ -334,13 +331,13 @@ public class LegendsOfValorGame extends Game {
     }
 
     private boolean heroEquip(Hero h){
-        //todo ask equip or unequip
+        //ask equip or unequip
         System.out.println(Main.ANSI_GREEN+"Choose equip or unequip an item: (0-equip, 1-unequip)\n"+Main.ANSI_RESET);
         int next = scanner.nextInt();
         int choice = -1;
         //equip
         if(next==0) {
-            System.out.println(Main.ANSI_GREEN + "Choose an equippable item (enter an index, or -1 to go back): \n" + Main.ANSI_RESET);
+            System.out.println(Main.ANSI_GREEN + "Choose an equippable item: \n" + Main.ANSI_RESET);
             List<Equipabble> tempList = new ArrayList<>();
             for(Item i: h.getHeroInventory().itemList){
                 if(i instanceof Equipabble){
@@ -356,7 +353,14 @@ public class LegendsOfValorGame extends Game {
                 System.out.println("Nothing in inventory is available to be equipped to "+h.getName()+", please try again");
                 return false;
             }
-            choice = scanner.nextInt();
+            do {
+                System.out.printf("Enter a number between %d and %d: ", 0, tempList.size()-1);
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, tempList.size()-1);
+                }
+                choice = scanner.nextInt();
+            } while (choice < 0 || choice > tempList.size()-1);
             if (choice >= 0) {
                 Equipabble target =(Equipabble) h.getFromInventory(choice);
                 return target.equip(h);
@@ -382,6 +386,14 @@ public class LegendsOfValorGame extends Game {
                 System.out.println("Nothing is equipped to "+h.getName()+", please try again");
                 return false;
             }
+            do {
+                System.out.printf("Enter a number between %d and %d: ", 0, tempList.size()-1);
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, tempList.size()-1);
+                }
+                choice = scanner.nextInt();
+            } while (choice < 0 || choice > tempList.size()-1);
             //check input and get equipment within index of heroInventory
             choice = scanner.nextInt();
             Equipabble target =(Equipabble) h.getFromInventory(choice);
@@ -391,13 +403,142 @@ public class LegendsOfValorGame extends Game {
         }
     }
 
-    private boolean heroTeleport(Hero h, Hero to){
+    private boolean heroUsePotion(Hero h){
+        int choice = -1;
+        //choose potion
+        System.out.println(Main.ANSI_GREEN + "Choose a potion item: \n" + Main.ANSI_RESET);
+        List<Potion> tempList = new ArrayList<>();
+        for(Item i: h.getHeroInventory().itemList){
+            if(i instanceof Potion){
+                tempList.add((Potion) i);
+                System.out.println(h.getHeroInventory().itemList.indexOf(i) + ": " + i.getName());
+            }
+        }
+        //if no potion
+        if(tempList.size()==0){
+            System.out.println("Nothing in inventory is available to use, please try again");
+            return false;
+        }
+        //input validation, get a choice value from user
+        do {
+            System.out.printf("Enter a number between %d and %d: ", 0, tempList.size()-1);
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, tempList.size()-1);
+            }
+            choice = scanner.nextInt();
+        } while (choice < 0 || choice > tempList.size()-1);
+
+        Potion p = (Potion) h.getFromInventory(choice);
+        return h.usePotion(p);
+    }
+
+    private boolean heroUseSpell(Hero h){
+        int choice = -1;
+        //choose spell
+        System.out.println(Main.ANSI_GREEN + "Choose a Spell item: \n" + Main.ANSI_RESET);
+        List<Spell> tempList = new ArrayList<>();
+        for(Item i: h.getHeroInventory().itemList){
+            if(i instanceof Spell){
+                tempList.add((Spell) i);
+                System.out.println(h.getHeroInventory().itemList.indexOf(i) + ": " + i.getName());
+            }
+        }
+        //if no Spell in inventory
+        if(tempList.size()==0){
+            System.out.println("Nothing in inventory is available to use, please try again");
+            return false;
+        }
+        do {
+            System.out.printf("Enter a number between %d and %d: ", 0, tempList.size()-1);
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, tempList.size()-1);
+            }
+            choice = scanner.nextInt();
+        } while (choice < 0 || choice > tempList.size()-1);
+        //retrieve spell
+        Spell s = (Spell) h.getFromInventory(choice);
+
+        //choose target, basically reused heroAttack() logic
+        ArrayList<Fightable> targetList = lvWorld.inRange(h);
+        if(targetList.size()==0){
+            System.out.println("There is no target in range");
+            return false;
+        }
+        else {
+            for (Fightable f : targetList) {
+                Monster m = (Monster) f;
+                System.out.println(targetList.indexOf(m) + ": " + m);
+            }
+            System.out.println("Choose a target to cast spell on:");
+            //scan next int input 0~targetList size
+            do {
+                System.out.printf("Enter a number between %d and %d: ", 0, targetList.size() - 1);
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, targetList.size() - 1);
+                }
+                choice = scanner.nextInt();
+            } while (choice < 0 || choice > targetList.size() - 1);
+            //retrieve the target monster
+            Monster m = (Monster) targetList.get(choice);
+            if (h.castSpell(s, m)) {
+                //cast success, check defeat monster or not
+                if (!m.isAlive()) {
+                    lvWorld.board[m.getR()][m.getC()].removeMonster();
+                    monsterTeam.getParty().remove(m);
+                    //if win: earn money + exp and level up
+                    System.out.println(Main.ANSI_YELLOW + "Monster " + m.getName() + " is defeated" + Main.ANSI_RESET);
+                    //awards: money, exp, give to every hero
+                    for (Hero h1 : heroTeam.getParty()) {
+                        int moneyEarned = m.getLevel() * 100;
+                        int expGained = m.getLevel() * 2;
+                        System.out.println(Main.ANSI_YELLOW + h1.getName() + " earn money: " + moneyEarned + ", gain exp: " + expGained + Main.ANSI_RESET);
+                        h1.setMoney(h.getMoney() + moneyEarned);
+                        h1.setExperience(h.getExperience() + expGained);
+                        h1.levelUp();
+                    }
+                    System.out.println("==================================================");
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private boolean heroTeleport(Hero h){
+        System.out.println("-------------------------------\n" +Main.ANSI_GREEN+
+                "Choose the hero you want to teleport to:"+Main.ANSI_RESET);
+        //Input validation: restrict user input between 0~sizeof(heroTeam)
+        int choice = -1;
+        do {
+            System.out.println(Main.ANSI_GREEN+"Your party size is "+heroTeam.getParty().size()+". Please choose a hero to recruit:"+Main.ANSI_RESET);
+            System.out.printf("Enter a number between %d and %d: ", 0, heroTeam.getParty().size()-1);
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, heroTeam.getParty().size());
+            }
+            choice = scanner.nextInt();
+        } while (choice < 0 || choice > heroTeam.getParty().size()-1);
+        return lvWorld.teleport(h, heroTeam.getParty().get(choice));
 
     }
 
     private boolean heroRecall(Hero h){
-        //ask for
-        lvWorld.recall(h);
+        //ask for confirmation
+        System.out.println("Hero "+h.getName()+" will be recalled to its starting lane, " +
+                h.printStartingLane()+" , are you sure? (y/n)");
+        if(scanner.next().charAt(0)=='y'){
+            System.out.println("Hero recalled");
+            lvWorld.recall(h);
+            return true;
+        }
+        else{
+            System.out.println("Recall canceled");
+            return false;
+        }
     }
 
     //a function to

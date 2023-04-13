@@ -37,29 +37,29 @@ public class Potion extends Item implements Consumable{
             h.dexterity += this.attribute_increase;
             h.agility += this.attribute_increase;
             h.def += this.attribute_increase;
-            System.out.println("All stats increased by " + this.attribute_affected);
+            System.out.println("All stats increased by " + this.attribute_increase);
             return true;
         }
         if(this.attribute_affected.contains("Health")){
             h.health += this.attribute_increase;
-            System.out.println("Health increased by " + this.attribute_affected);
+            System.out.println("Health increased by " + this.attribute_increase);
 
         }
         if(this.attribute_affected.contains("Mana")){
             h.mana += this.attribute_increase;
-            System.out.println("Mana increased by " + this.attribute_affected);
+            System.out.println("Mana increased by " + this.attribute_increase);
         }
         if(this.attribute_affected.contains("Agility")){
             h.agility += this.attribute_increase;
-            System.out.println("Agility increased by " + this.attribute_affected);
+            System.out.println("Agility increased by " + this.attribute_increase);
         }
         if(this.attribute_affected.contains("Strength")){
             h.strength += this.attribute_increase;
-            System.out.println("Strength increased by " + this.attribute_affected);
+            System.out.println("Strength increased by " + this.attribute_increase);
         }
         if(this.attribute_affected.contains("Dexterity")){
             h.dexterity += this.attribute_increase;
-            System.out.println("Dexterity increased by " + this.attribute_affected);
+            System.out.println("Dexterity increased by " + this.attribute_increase);
         }
         return true;
     }
