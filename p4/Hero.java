@@ -228,8 +228,12 @@ public class Hero extends GameCharacter{
             reviveCounter--;
             return false;
         }
-
     }
+
+
+
+
+    //todo castSpell and usePotion on Hero side
 
     /* Advanced battle
     public void castSpell(Spell spell, Monster target) {

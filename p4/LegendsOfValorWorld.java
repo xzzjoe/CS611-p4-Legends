@@ -171,6 +171,46 @@ public class LegendsOfValorWorld extends World {
             return true;
         }
     }
+
+    public boolean teleport(Hero from, Hero to){
+        Space oldSpace = board[from.getR()][from.getC()];
+        if(Math.abs(from.getC() - to.getC()) > 1){
+            System.out.println("Two heroes in the same lane, cannot teleport");
+            return false;
+        }
+        int newC = to.getC() + 1;
+        Space newSpace = board[to.getR()][newC];
+        if(newC < board[0].length && !(newSpace instanceof Inaccessible)){
+            if(newSpace.h != null){
+                oldSpace.removeHero();
+                from.makeMove(to.getR(), newC);
+                newSpace.addHero(from);
+                return true;
+            }
+        }
+        newC = to.getC() - 1;
+        newSpace = board[to.getR()][newC];
+        if(newC >= 0 && !(newSpace instanceof Inaccessible)){
+            if(newSpace.h != null){
+                oldSpace.removeHero();
+                from.makeMove(to.getR(), newC);
+                newSpace.addHero(from);
+                return true;
+            }
+        }
+        int newR = to.getR() - 1;
+        newSpace = board[newR][to.getC()];
+        if(newR >= 0){
+            if(newSpace.h != null){
+                oldSpace.removeHero();
+                from.makeMove(to.getR(), newC);
+                newSpace.addHero(from);
+                return true;
+            }
+        }
+        System.out.println("All space near allied heroes are occupied.(This should not happen with 3 heroes)");
+        return false;
+    }
     public ArrayList<Fightable> inRange(GameCharacter c){
         ArrayList<Fightable> retList = new ArrayList<Fightable>();
         int currR = c.getR();
