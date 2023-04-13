@@ -367,11 +367,11 @@ public abstract class Hero extends GameCharacter{
     }
 
     public String printStartingLane() {
-        if(this.startingLane=='t')
+        if(this.startingLane=='T')
             return "Top Lane";
-        else if(this.startingLane=='m')
+        else if(this.startingLane=='M')
             return "Mid Lane";
-        else if(this.startingLane=='b')
+        else if(this.startingLane=='B')
             return "Bottom Lane";
         else
             return "Unassigned";
@@ -383,9 +383,9 @@ public abstract class Hero extends GameCharacter{
 
     public void respawn(){
         this.r = 7;
-        if(this.startingLane=='t')
+        if(this.startingLane=='T')
             this.c = 0;
-        else if(this.startingLane=='m')
+        else if(this.startingLane=='M')
             this.c = 3;
         else
             this.c = 6;
