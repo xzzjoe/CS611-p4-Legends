@@ -555,16 +555,25 @@ public class LegendsOfValorGame extends Game {
     }
     public void endGame(){
         //decide who won
-        boolean heroWon = true;
+        int heroWon=-1;
+        String name = "";
         for(Monster m: this.monsterTeam.getParty()){
-            if (m.getR()==7)
-                heroWon = false;
+            if (m.getR()==7){
+                heroWon = 0;
+                name = m.getName();
+            }
         }
-        if(heroWon){
-            System.out.println("Hero reaches monsters' Nexus");
+        for(Hero h: this.heroTeam.getParty()){
+            if (h.getR()==0){
+                heroWon = 1;
+                name = h.getName();
+            }
         }
-        else{
-            System.out.println("Monster reaches heroes' Nexus");
+        if(heroWon==1){
+            System.out.println("Hero"+name+" reaches monsters' Nexus");
+        }
+        else if(heroWon==0){
+            System.out.println("Monster"+name+" reaches heroes' Nexus");
         }
         System.out.println("-----------------------------------" +
 //                "\nNumber of Monsters defeated:" + heroTeam.getMonsterDefated() +
