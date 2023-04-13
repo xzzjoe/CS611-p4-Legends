@@ -25,7 +25,7 @@ public class Main {
         }
 
         try{
-            Main.respawn = new AudioPlayer("configs/respawn");
+            Main.respawn = new AudioPlayer("configs/respawn.wav");
         }catch (Exception e){
             System.out.println("Respawn Exception" + e );
         }
