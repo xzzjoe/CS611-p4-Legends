@@ -83,7 +83,7 @@ public class LegendsOfValorGame extends Game {
     }
     public void startGame (){
         char input;
-        roundCounter = 0;
+        roundCounter = 1;
         while (true) {
             //heroes start at their starting positions (0, 7), (3, 7), (6, 7)
             //monsters start at their starting positions (1, 0), (4, 0), (7, 0)
@@ -93,7 +93,7 @@ public class LegendsOfValorGame extends Game {
 //            MarketInventory testM = new MarketInventory<>();
 //            testM.displayItems(Potion.class);
             System.out.println("/************************************************/");
-            System.out.println("This is round "+ (roundCounter+1) );
+            System.out.println("This is round "+ roundCounter );
             //1. loop through HeroTeam, call heroTurn()
             System.out.println("/*******************Heroes' Turn*****************/");
             for(Hero h: heroTeam.getParty()){
@@ -143,6 +143,9 @@ public class LegendsOfValorGame extends Game {
         System.out.println("Hero "+h.getName()+"'s turn, to be implemented");
 
         boolean turnTaken = false;
+        //if this hero is reviving, consume this turn
+        //todo add prompt inside revive(), and
+        turnTaken = !(h.revive());
         while (!turnTaken) {
             System.out.println(Main.ANSI_GREEN + "It's " + h.getName() + "'s turn.\n" +
                     "Please choose an action: \n" +
@@ -164,7 +167,7 @@ public class LegendsOfValorGame extends Game {
                     System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, 8);
                 }
                 choice = scanner.nextInt();
-            } while (choice < 0 || choice > this.heroList.size()-1);
+            } while (choice < 0 || choice > 8);
             switch (choice){
                 case 0:
                     turnTaken = heroMovePosition(h);
@@ -178,9 +181,37 @@ public class LegendsOfValorGame extends Game {
 
     private void monsterTurn(Monster m) {
         //search inRange()
-        //if false, move forward
-        //if isValid = false, check isValid for left and right space
-        System.out.println("Monster "+m.getName()+"'s turn, to be implemented");
+        ArrayList<Fightable> targetList = lvWorld.inRange(m);
+        if(targetList.size()==0){
+            //no hero in range, move forward
+            if(lvWorld.isValidMove((m.getR()+1), (m.getC()), m)){
+                lvWorld.board[m.getR()][m.getC()].removeMonster();
+                m.makeMove((m.getR()+1), (m.getC()));
+                lvWorld.board[m.getR()][m.getC()].addMonster(m);
+            }
+            //if forward space's isValid = false, check isValid for left and right space
+            else if(lvWorld.isValidMove((m.getR()), (m.getC()+1), m)) {
+                lvWorld.board[m.getR()][m.getC()].removeMonster();
+                m.makeMove((m.getR()), (m.getC()+1));
+                lvWorld.board[m.getR()][m.getC()].addMonster(m);
+            }
+            else if(lvWorld.isValidMove((m.getR()), (m.getC()-1), m)) {
+                lvWorld.board[m.getR()][m.getC()].removeMonster();
+                m.makeMove((m.getR()), (m.getC()-1));
+                lvWorld.board[m.getR()][m.getC()].addMonster(m);
+            }
+            else{
+                //no place to move
+            }
+        }
+        else{
+            //auto-choose the first hero in range to attack
+            Hero h = (Hero) targetList.get(0);
+            m.attack(h);
+            if(!h.isAlive()){
+                lvWorld.board[h.getR()][h.getC()].removeHero();
+            }
+        }
     }
 
     private boolean heroMovePosition(Hero h){
@@ -224,9 +255,28 @@ public class LegendsOfValorGame extends Game {
             return false;
         }
         else{
-            for(Monster m:targetList){
-
+            for(Fightable f :targetList){
+                Monster m = (Monster) f;
+                System.out.println(targetList.indexOf(m)+": "+ m);
             }
+            System.out.println("Choose a target to attack:");
+            //scan next int input 0~targetList size
+            int choice = -1;
+            do {
+                System.out.printf("Enter a number between %d and %d: ", 0, targetList.size()-1);
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, targetList.size()-1);
+                }
+                choice = scanner.nextInt();
+            } while (choice < 0 || choice > targetList.size()-1);
+            Monster m = (Monster) targetList.get(choice);
+            h.attack(m);
+            if(!m.isAlive()){
+                lvWorld.board[m.getR()][m.getC()].removeMonster();
+                monsterTeam.getParty().remove(m);
+            }
+            return true;
         }
 
     }
@@ -274,17 +324,16 @@ public class LegendsOfValorGame extends Game {
             switch (i){
                 //top lane
                 case 0:
-                    //todo r=5 for testing
-                    if (lvWorld.board[5][1].getM()==null){
+                    if (lvWorld.board[0][1].getM()==null){
                         chosen.makeMove(0, 1);
-                        lvWorld.board[5][1].addMonster(chosen);
+                        lvWorld.board[0][1].addMonster(chosen);
                     }
                     break;
                 //mid lane
                 case 1:
-                    if (lvWorld.board[5][4].getM()==null){
+                    if (lvWorld.board[0][4].getM()==null){
                         chosen.makeMove(0, 4);
-                        lvWorld.board[5][4].addMonster(chosen);
+                        lvWorld.board[0][4].addMonster(chosen);
                     }
                     break;
                 //bottom lane
@@ -295,6 +344,7 @@ public class LegendsOfValorGame extends Game {
                     }
                     break;
             }
+            System.out.println(Main.ANSI_RED+"New monster "+chosen.getName()+" is spawned!"+Main.ANSI_RESET);
             this.monsterList.remove(chosen);
         }
     }
