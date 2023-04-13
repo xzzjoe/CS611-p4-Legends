@@ -9,14 +9,14 @@ public abstract class Spell extends Item {
 
     }
 
-    public void cast(Hero h, Monster m){
+    public boolean cast(Hero h, Monster m){
         if(h.level < this.level){
             System.out.println("Level not enough.");
-            return;
+            return false;
         }
         if(h.mana < this.mana_cost){
             System.out.println("Not enough mana");
-            return;
+            return false;
         }
         h.mana -= mana_cost;
         m.takeDamage(this.damage);
@@ -28,6 +28,7 @@ public abstract class Spell extends Item {
         }else{
             m.reduceDodge();
         }
+        return true;
 
     }
     public int getLevel() {

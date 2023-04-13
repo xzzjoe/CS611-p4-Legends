@@ -1,4 +1,4 @@
 public interface Equipabble {
-    public abstract void equip();
-    public abstract void unequip();
+    boolean equip(Hero h);
+    void unequip();
 }

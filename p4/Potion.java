@@ -1,4 +1,4 @@
-public class Potion extends Item implements Consumbale{
+public class Potion extends Item implements Consumable{
     private int level;
     private int attribute_increase;
     private String attribute_affected;
@@ -25,7 +25,11 @@ public class Potion extends Item implements Consumbale{
     }
 
 
-    public void consume(Hero h){
+    public boolean consume(Hero h){
+        if(this.level > h.level){
+            System.out.println("Hero's level not enough to consume this potion");
+            return false;
+        }
         if(this.attribute_affected.contains("All")){
             h.health += this.attribute_increase;
             h.mana += this.attribute_increase;
@@ -34,11 +38,12 @@ public class Potion extends Item implements Consumbale{
             h.agility += this.attribute_increase;
             h.def += this.attribute_increase;
             System.out.println("All stats increased by " + this.attribute_affected);
-            return;
+            return true;
         }
         if(this.attribute_affected.contains("Health")){
             h.health += this.attribute_increase;
             System.out.println("Health increased by " + this.attribute_affected);
+
         }
         if(this.attribute_affected.contains("Mana")){
             h.mana += this.attribute_increase;
@@ -56,8 +61,7 @@ public class Potion extends Item implements Consumbale{
             h.dexterity += this.attribute_increase;
             System.out.println("Dexterity increased by " + this.attribute_affected);
         }
-
-
+        return true;
     }
 
     @Override

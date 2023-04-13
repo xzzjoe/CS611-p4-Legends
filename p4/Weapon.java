@@ -2,12 +2,14 @@ public class Weapon extends Item implements Equipabble{
     private int level;
     private int damage;
     private int requiredHands;
+    private boolean equipped;
 
     public Weapon(String name, int cost, int level, int damage, int requiredHands) {
         super(name, cost);
         this.level = level;
         this.damage = damage;
         this.requiredHands = requiredHands;
+        this.equipped = false;
     }
 
     public String getName() {
@@ -43,12 +45,18 @@ public class Weapon extends Item implements Equipabble{
 
 
     @Override
-    public void equip() {
-
+    public boolean equip(Hero h) {
+        if (h.level < this.level){
+            System.out.println("Hero level not enough to equip weapon " + this.name);
+            return false;
+        }
+        this.equipped = true;
+        return true;
     }
 
     @Override
     public void unequip() {
+        this.equipped = false;
 
     }
 }
