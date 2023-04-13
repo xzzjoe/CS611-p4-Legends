@@ -42,6 +42,7 @@ public class AudioPlayer {
         //start the clip
         clip.start();
         status = "play";
+        clip.close();
     }
 
     public void playInfinite(){
