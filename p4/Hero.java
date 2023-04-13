@@ -218,7 +218,7 @@ public abstract class Hero extends GameCharacter{
         }
         int trueDamage = damage - reduction;
         System.out.println(Main.ANSI_RED+name+" received "+trueDamage+"damage!"+Main.ANSI_RESET);
-        if(this.health < trueDamage){
+        if(this.health <= trueDamage){
             this.setReviveCounter(2);
         }
         setHealth(getHealth()-trueDamage);
