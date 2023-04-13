@@ -221,7 +221,7 @@ public class Hero extends GameCharacter{
         }
         else if(this.reviveCounter == 0){
             this.reviveCounter = -1;
-            setHealth(100*level);
+            respawn();
             return true;
         }
         else{
