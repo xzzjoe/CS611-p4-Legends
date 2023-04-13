@@ -211,6 +211,21 @@ public class LegendsOfValorWorld extends World {
         System.out.println("All space near allied heroes are occupied.(This should not happen with 3 heroes)");
         return false;
     }
+
+
+    public void recall(Hero h){
+        Space oldSpace = board[h.getR()][h.getC()];
+        oldSpace.removeHero();
+
+        h.r = 7;
+        if(h.startingLane=='t')
+            h.c = 0;
+        else if(h.startingLane=='m')
+            h.c = 3;
+        else
+            h.c = 6;
+        board[h.r][h.c].addHero(h);
+    }
     public ArrayList<Fightable> inRange(GameCharacter c){
         ArrayList<Fightable> retList = new ArrayList<Fightable>();
         int currR = c.getR();
