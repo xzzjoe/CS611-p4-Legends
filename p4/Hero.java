@@ -208,9 +208,13 @@ public class Hero extends GameCharacter{
             System.out.println("Hero " +this.name + "has dodged the incoming attack!");
             return;
         }
-        int trueDamage = damage - this.armor.getDamageReduction() - this.def;
-        System.out.println(Main.ANSI_RED+name+" received "+damage+"damage!"+Main.ANSI_RESET);
-        setHealth(getHealth()-damage);
+        int reduction = this.def;
+        if(this.armor != null){
+            reduction += this.armor.getDamageReduction();
+        }
+        int trueDamage = damage - reduction;
+        System.out.println(Main.ANSI_RED+name+" received "+trueDamage+"damage!"+Main.ANSI_RESET);
+        setHealth(getHealth()-trueDamage);
     }
 
 
