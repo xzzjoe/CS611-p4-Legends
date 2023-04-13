@@ -181,15 +181,16 @@ public class Hero extends GameCharacter{
         this.agility -= val;
     }
 
-    public void attack(Monster target) {
+    public void attack(Fightable F) {
         //TODO use formula, defence etc.
         // Implement hero attack logic
-        System.out.println(name+" attacked "+target.getName());
+        Monster m = (Monster) F;
+        System.out.println(name+" attacked "+m.getName());
         if(weapon!=null){
-            target.takeDamage((int) round(strength*1.7) + weapon.getDamage());
+            m.takeDamage((int) round(strength*1.7) + weapon.getDamage());
         }
         else {
-            target.takeDamage((int) round(strength*1.7));
+            m.takeDamage((int) round(strength*1.7));
         }
     }
 
@@ -335,7 +336,7 @@ public class Hero extends GameCharacter{
         this.r = 7;
         if(this.startingLane=='t')
             this.c = 0;
-        else if(this.startingLane=='b')
+        else if(this.startingLane=='m')
             this.c = 3;
         else
             this.c = 6;
