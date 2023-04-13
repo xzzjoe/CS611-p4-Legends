@@ -103,18 +103,22 @@ public class LegendsOfValorWorld extends World {
                 //3. when moving forward, cannot go past a enemy type character
                 else if(row<c.getR()) {
                     boolean foundMonster = false;
-                    for (int iterR = -1; iterR < 2; iterR++) {
-                        int newR = c.getR() + iterR;
-                        if (newR >= this.board.length || newR < 0) {
+                    for (int iterC = -1; iterC < 2; iterC++) {
+                        int checkC = c.getC() + iterC;
+                        if (checkC >= this.board.length || checkC < 0) {
                             continue;
                         }
                         else{
-                            if(board[newR][c.getC()].getM()!=null)
+                            if(board[c.getR()][checkC].getM()!=null)
                                 foundMonster = true;
                         }
-                        if(foundMonster)
-                            return false;
                     }
+                    if(foundMonster) {
+                        System.out.println("You cannot go past a Monster");
+                        return false;
+                    }
+                    else
+                        return true;
                 }
                 else {
                     return true;
@@ -137,12 +141,8 @@ public class LegendsOfValorWorld extends World {
                 else if(board[row][column].getM()!=null){
                     return false;
                 }
-                //3. monster always go forward, but cannot go past an enemy type character
-                //if monster is trying to move, it means no hero inrange
-                else {
-                    boolean
-                    return false;
-                }
+                //3. monsters always go forward, and cannot go past an enemy type character
+                //however, if monster is trying to move, it means we checked no hero is in range
                 else {
                     return true;
                 }
@@ -171,8 +171,8 @@ public class LegendsOfValorWorld extends World {
             return true;
         }
     }
-    public ArrayList<GameCharacter> inRange(GameCharacter c){
-        ArrayList<GameCharacter> retList = new ArrayList<GameCharacter>();
+    public ArrayList<Fightable> inRange(GameCharacter c){
+        ArrayList<Fightable> retList = new ArrayList<Fightable>();
         int currR = c.getR();
         int currC = c.getC();
         if(c instanceof Hero){

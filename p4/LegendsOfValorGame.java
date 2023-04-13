@@ -93,7 +93,7 @@ public class LegendsOfValorGame extends Game {
 //            MarketInventory testM = new MarketInventory<>();
 //            testM.displayItems(Potion.class);
             System.out.println("/************************************************/");
-            System.out.println("This is round "+roundCounter+1);
+            System.out.println("This is round "+ (roundCounter+1) );
             //1. loop through HeroTeam, call heroTurn()
             System.out.println("/*******************Heroes' Turn*****************/");
             for(Hero h: heroTeam.getParty()){
@@ -155,7 +155,6 @@ public class LegendsOfValorGame extends Game {
                     "6. Teleport to another Lane\n" +
                     "7. Recall to Nexus\n" +
                     "8. Quit Game\n" + Main.ANSI_RESET);
-            System.out.println(lvWorld.inRange(h));
             //scan next int input 0~7
             int choice = -1;
             do {
@@ -168,10 +167,10 @@ public class LegendsOfValorGame extends Game {
             } while (choice < 0 || choice > this.heroList.size()-1);
             switch (choice){
                 case 0:
-                    heroMovePosition(h);
-                    turnTaken = true;
+                    turnTaken = heroMovePosition(h);
                     break;
                 case 1:
+                    turnTaken = heroAttack(h);
                     break;
             }
         }
@@ -184,7 +183,7 @@ public class LegendsOfValorGame extends Game {
         System.out.println("Monster "+m.getName()+"'s turn, to be implemented");
     }
 
-    private void heroMovePosition(Hero h){
+    private boolean heroMovePosition(Hero h){
         while(true) {
             System.out.println(Main.ANSI_GREEN + "Move your hero using W/A/S/D" + Main.ANSI_RESET);
             //prepare values for next HeroTeam position
@@ -210,13 +209,27 @@ public class LegendsOfValorGame extends Game {
                 lvWorld.board[h.getR()][h.getC()].removeHero();
                 h.makeMove(newRow, newCol);
                 lvWorld.board[h.getR()][h.getC()].addHero(h);
-                return;
+                return true;
             } else {
                 System.out.println("Invalid move, please try again");
+                return false;
             }
         }
     }
 
+    private boolean heroAttack(Hero h){
+        ArrayList<Fightable> targetList = lvWorld.inRange(h);
+        if(targetList.size()==0){
+            System.out.println("There is no target in range");
+            return false;
+        }
+        else{
+            for(Monster m:targetList){
+
+            }
+        }
+
+    }
 
     //a function to
     private boolean reachNexus(){
@@ -261,16 +274,17 @@ public class LegendsOfValorGame extends Game {
             switch (i){
                 //top lane
                 case 0:
-                    if (lvWorld.board[0][1].getM()==null){
+                    //todo r=5 for testing
+                    if (lvWorld.board[5][1].getM()==null){
                         chosen.makeMove(0, 1);
-                        lvWorld.board[0][1].addMonster(chosen);
+                        lvWorld.board[5][1].addMonster(chosen);
                     }
                     break;
                 //mid lane
                 case 1:
-                    if (lvWorld.board[0][4].getM()==null){
+                    if (lvWorld.board[5][4].getM()==null){
                         chosen.makeMove(0, 4);
-                        lvWorld.board[0][4].addMonster(chosen);
+                        lvWorld.board[5][4].addMonster(chosen);
                     }
                     break;
                 //bottom lane
