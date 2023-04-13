@@ -3,7 +3,7 @@ import java.util.Random;
 import static java.lang.Math.round;
 
 //TODO temporarily non-abstract
-public class Monster extends GameCharacter{
+public class Monster extends GameCharacter implements Fightable{
 
     protected int level;
     protected int damage;
@@ -35,9 +35,10 @@ public class Monster extends GameCharacter{
     }
 
 
-    public void attack(Hero target) {
-        System.out.println(name+" attacked "+target.getName());
-        target.takeDamage((int) round(damage*0.5));
+    public void attack(Fightable F) {
+        Hero h = (Hero) F;
+        System.out.println(name+" attacked "+h.getName());
+        F.takeDamage((int) round(damage*0.5));
     }
 
     public void takeDamage(int damage){
