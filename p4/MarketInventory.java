@@ -10,15 +10,15 @@ public class MarketInventory<T extends Item> extends Inventory{
     public ArrayList<Item> generateGameItemList(){
         ArrayList<Item> temp = new ArrayList<>();
         //read weaponry
-        temp.addAll(WeaponLoader.loadWeapons("configs\\Weaponry.txt"));
+        temp.addAll(WeaponLoader.loadWeapons("configs/Weaponry.txt"));
         //read armory
-        temp.addAll(ArmorLoader.loadArmors("configs\\Armory.txt"));
+        temp.addAll(ArmorLoader.loadArmors("configs/Armory.txt"));
         //read potion
-        temp.addAll(PotionLoader.loadPotions("configs\\Potions.txt"));
+        temp.addAll(PotionLoader.loadPotions("configs/Potions.txt"));
         //read spells
-        temp.addAll(SpellLoader.loadSpells("configs\\FireSpells.txt", FireSpell.class));
-        temp.addAll(SpellLoader.loadSpells("configs\\IceSpells.txt", IceSpell.class));
-        temp.addAll(SpellLoader.loadSpells("configs\\LightningSpells.txt", LightningSpell.class));
+        temp.addAll(SpellLoader.loadSpells("configs/FireSpells.txt", FireSpell.class));
+        temp.addAll(SpellLoader.loadSpells("configs/IceSpells.txt", IceSpell.class));
+        temp.addAll(SpellLoader.loadSpells("configs/LightningSpells.txt", LightningSpell.class));
         return temp;
     }
     public void displayItems(Class<T> gameItemType){

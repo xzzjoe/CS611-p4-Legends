@@ -20,7 +20,7 @@ public class Main {
         try{
             Main.slash = new AudioPlayer("configs/slash.wav");
         }catch (Exception e){
-            System.out.println("Exception");
+            System.out.println("Exception"+e);
         }
     }
 }

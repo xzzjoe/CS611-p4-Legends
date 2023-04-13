@@ -17,9 +17,9 @@ public class LegendsOfValorGame extends Game {
         this.lvWorld = new LegendsOfValorWorld(8, 8);
         //read config and print out all the heroes
         heroList = new ArrayList<>();
-        heroList.addAll(HeroLoader.loadHeroes("configs\\Paladins.txt", Paladin.class));
-        heroList.addAll(HeroLoader.loadHeroes("configs\\Sorcerers.txt", Sorcerer.class));
-        heroList.addAll(HeroLoader.loadHeroes("configs\\Warriors.txt", Warrior.class));
+        heroList.addAll(HeroLoader.loadHeroes("configs/Paladins.txt", Paladin.class));
+        heroList.addAll(HeroLoader.loadHeroes("configs/Sorcerers.txt", Sorcerer.class));
+        heroList.addAll(HeroLoader.loadHeroes("configs/Warriors.txt", Warrior.class));
         //create hero team
 //        //ask user party size, heroes to choose
 //        System.out.println(Main.ANSI_GREEN+"Please enter the size of your party (1~3):"+Main.ANSI_RESET);
@@ -613,9 +613,9 @@ public class LegendsOfValorGame extends Game {
     private void readMonster(){
         //read config for all monsters
         monsterList = new ArrayList<>();
-        monsterList.addAll(MonsterLoader.loadMonsters("configs\\Spirits.txt", Spirit.class));
-        monsterList.addAll(MonsterLoader.loadMonsters("configs\\Dragons.txt", Dragon.class));
-        monsterList.addAll(MonsterLoader.loadMonsters("configs\\Exoskeletons.txt", Exoskeleton.class));
+        monsterList.addAll(MonsterLoader.loadMonsters("configs/Spirits.txt", Spirit.class));
+        monsterList.addAll(MonsterLoader.loadMonsters("configs/Dragons.txt", Dragon.class));
+        monsterList.addAll(MonsterLoader.loadMonsters("configs/Exoskeletons.txt", Exoskeleton.class));
         //monsterList.addAll(MonsterLoader.loadMonsters(Main.SRC_FILEPATH+"\\configs\\Exoskeletons.txt", Exoskeleton.class));
         //randomize the list of monsters
         Collections.shuffle(monsterList, new Random());
