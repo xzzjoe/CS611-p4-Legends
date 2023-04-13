@@ -156,6 +156,31 @@ public class Hero extends GameCharacter{
         }
     }
 
+    public void dexBuff(int val){
+        //Temp buff, need to debuff when exiting space
+        this.dexterity += val;
+    }
+
+    public void strengthBuff(int val){
+        this.strength += val;
+    }
+
+    public void agilBuff(int val){
+        this.agility += val;
+    }
+
+    public void dexDebuff(int val){
+        this.dexterity -= val;
+    }
+
+    public void strengthDebuff(int val){
+        this.strength -= val;
+    }
+
+    public void agilDebuff(int val){
+        this.agility -= val;
+    }
+
     public void attack(Monster target) {
         //TODO use formula, defence etc.
         // Implement hero attack logic
