@@ -229,6 +229,7 @@ public class Hero extends GameCharacter{
             return true;
         }
         else{
+            System.out.println("Hero " +this.name + " still has "+Main.ANSI_RED + this.reviveCounter  + Main.ANSI_RESET + "rounds to be revived.");
             reviveCounter--;
             return false;
         }
