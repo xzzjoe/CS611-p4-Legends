@@ -85,19 +85,72 @@ public class LegendsOfValorWorld extends World {
         }
     }
     // Other LVWorld specific methods here
-    public boolean isValidMove(int row, int column){
+    public boolean isValidMove(int row, int column, GameCharacter c){
         //Todo combine this part with checking other monster/hero position
-        //inside the board
-        if (row >= 0 && row < board.length && column >= 0 && column < board[0].length)
-            //& not an Obstacle:
-            if (board[row][column].getClass() == Inaccessible.class) {
-                System.out.println("This space is an Obstacle");
+        if(c instanceof Hero){
+            //1. inside the board
+            if (row >= 0 && row < board.length && column >= 0 && column < board[0].length) {
+                //& not an Obstacle:
+                if (board[row][column].getClass() == Inaccessible.class) {
+                    System.out.println("This space is an Obstacle");
+                    return false;
+                }
+                //2. cannot walk to a space with same type character
+                else if(board[row][column].getH()!=null){
+                    System.out.println("This space is occupied by another Hero");
+                    return false;
+                }
+                //3. when moving forward, cannot go past a enemy type character
+                else if(row<c.getR()) {
+                    boolean foundMonster = false;
+                    for (int iterR = -1; iterR < 2; iterR++) {
+                        int newR = c.getR() + iterR;
+                        if (newR >= this.board.length || newR < 0) {
+                            continue;
+                        }
+                        else{
+                            if(board[newR][c.getC()].getM()!=null)
+                                foundMonster = true;
+                        }
+                        if(foundMonster)
+                            return false;
+                    }
+                }
+                else {
+                    return true;
+                }
+            }
+            else{
                 return false;
             }
-            else
-                return true;
-        else
-            return false;
+        }
+        //c is a Monster
+        else{
+            //1. inside the board
+            if (row >= 0 && row < board.length && column >= 0 && column < board[0].length) {
+                //& not an Obstacle:
+                if (board[row][column].getClass() == Inaccessible.class) {
+                    System.out.println("This space is an Obstacle");
+                    return false;
+                }
+                //2. cannot walk to a space with same type character
+                else if(board[row][column].getM()!=null){
+                    return false;
+                }
+                //3. monster always go forward, but cannot go past an enemy type character
+                //if monster is trying to move, it means no hero inrange
+                else {
+                    boolean
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
+        }
     }
 
     public void checkMarket(Hero hero) {

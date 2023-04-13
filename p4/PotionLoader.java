@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +8,7 @@ class PotionLoader {
         //a List to store all loaded Potions
         List<Potion> potions = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)))) {
             String line;
             br.readLine(); // Skip the header row in the config files
             //check next line exist and is not empty

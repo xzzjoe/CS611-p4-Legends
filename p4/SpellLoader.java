@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +7,7 @@ public class SpellLoader {
     //pass the type of Spell to this method, to achieve generic
     public static <T extends Spell> List<T> loadSpells(String fileName, Class<T> spellType) {
         List<T> spells = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)))) {
             String line;
             // Skip the header row in the config files
             br.readLine();

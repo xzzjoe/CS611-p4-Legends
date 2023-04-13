@@ -51,26 +51,30 @@ public class LegendsOfValorGame extends Game {
                 choice = scanner.nextInt();
             } while (choice < 0 || choice > this.heroList.size()-1);
             chosenHeroes.add(heroList.get(choice));
-            heroList.remove(choice);
+            Hero chosen = heroList.get(choice);
             //initialize hero starting position
             switch (i){
                 //top lane hero
                 case 0:
-                    chosenHeroes.get(0).setStartingLane('t');
-                    chosenHeroes.get(0).respawn();
+                    chosen.setStartingLane('t');
+                    chosen.respawn();
+                    lvWorld.board[7][0].addHero(chosen);
                     //move:
                     break;
                 //mid lane hero
                 case 1:
-                    chosenHeroes.get(0).setStartingLane('m');
-                    chosenHeroes.get(0).respawn();
+                    chosen.setStartingLane('m');
+                    chosen.respawn();
+                    lvWorld.board[7][3].addHero(chosen);
                     break;
                 //bottom lane hero
                 case 2:
-                    chosenHeroes.get(0).setStartingLane('b');
-                    chosenHeroes.get(0).respawn();
+                    chosen.setStartingLane('b');
+                    chosen.respawn();
+                    lvWorld.board[7][6].addHero(chosen);
                     break;
             }
+            heroList.remove(chosen);
         }
         this.heroTeam = new HeroTeam(chosenHeroes);
 
@@ -85,17 +89,19 @@ public class LegendsOfValorGame extends Game {
             //monsters start at their starting positions (1, 0), (4, 0), (7, 0)
             lvWorld.printBoard();
             //todo redesign main game loop
-            //todo test case for marketInventory
-            MarketInventory testM = new MarketInventory<>();
-            testM.displayItems(Potion.class);
+//            //todo test case for marketInventory
+//            MarketInventory testM = new MarketInventory<>();
+//            testM.displayItems(Potion.class);
             System.out.println("/************************************************/");
             System.out.println("This is round "+roundCounter+1);
             //1. loop through HeroTeam, call heroTurn()
             System.out.println("/*******************Heroes' Turn*****************/");
             for(Hero h: heroTeam.getParty()){
                 System.out.println("/************************************************/");
-                if (h.isAlive())
+                if (h.isAlive()) {
                     heroTurn(h);
+                    lvWorld.printBoard();
+                }
                 else{
                     System.out.println(Main.ANSI_RED +"It's " + h.getName() + "'s turn, but " +h.getName()+ " is fainted and waiting to be revived"+Main.ANSI_RESET);
 //                    todo h.reviveAtNexus();
@@ -111,8 +117,10 @@ public class LegendsOfValorGame extends Game {
             System.out.println("/*****************Monsters' Turn*****************/");
             for(Monster m: monsterTeam.getParty()){
                 System.out.println("/************************************************/");
-                if (m.isAlive())
+                if (m.isAlive()){
                     monsterTurn(m);
+                    lvWorld.printBoard();
+                }
                 else
                     System.out.println(Main.ANSI_RED +"It's " + m.getName() + "'s turn, but " +m.getName()+ " is defeated and cannot move!"+Main.ANSI_RESET);
 
@@ -128,55 +136,6 @@ public class LegendsOfValorGame extends Game {
             if(roundCounter%8==0)
                 spawnMonster(3);
             roundCounter++;
-
-            //todo move the following interaction when moving to a Space, to a round manager class
-            /*
-            //special interactions:
-            //1. Common Space, roll dice for Monster occurrence
-            //   if encountered with monsters, handle battle rounds
-            checkCommon();
-
-            //2. Command M, look for Market Space, call checkMarket()
-            //   if chose to enter Market, handle buy and sell
-            //3. other user commands
-
-            System.out.println(Main.ANSI_GREEN+"Move your hero using W/A/S/D; I - info; M - Market; Q - quit:"+Main.ANSI_RESET);
-            //prepare values for next HeroTeam position
-            int newRow = heroTeam.getRow();
-            int newCol = heroTeam.getCol();
-
-            //scan command:
-            //TODO other commands: I for info
-            input = scanner.next().charAt(0);
-            if (input == 'W' || input == 'w') {
-                newRow--;
-            } else if (input == 'A' || input == 'a') {
-                newCol--;
-            } else if (input == 'S' || input == 's') {
-                newRow++;
-            } else if (input == 'D' || input == 'd') {
-                newCol++;
-            } else if (input == 'Q' || input == 'q') {
-                endGame();
-            } else if (input == 'I' || input == 'i') {
-//                showInfo();
-                continue;
-            } else if (input == 'M' || input == 'm') {
-                checkMarket();
-                continue;
-            } else {
-                System.out.println("Invalid command input! Use W/A/S/D keys to move, or enter Q to quit");
-                continue;
-            }
-
-            if (lvWorld.isValidMove(newRow, newCol)) {
-                heroTeam.moveTo(newRow, newCol);
-                heroTeam.increaseSpaceTravelled();
-            } else {
-                System.out.println("Invalid move, please try again");
-            }
-
-             */
         }
     }
 
@@ -192,25 +151,81 @@ public class LegendsOfValorGame extends Game {
                     "2. Cast spell\n" +
                     "3. Use potion\n" +
                     "4. Equip item\n" +
-                    "5. Display stats (won't consume this turn)\n" + Main.ANSI_RESET);
-            scanner.next();
-
-            turnTaken = true;
+                    "5. Display stats (won't consume this turn)\n" +
+                    "6. Teleport to another Lane\n" +
+                    "7. Recall to Nexus\n" +
+                    "8. Quit Game\n" + Main.ANSI_RESET);
+            System.out.println(lvWorld.inRange(h));
+            //scan next int input 0~7
+            int choice = -1;
+            do {
+                System.out.printf("Enter a number between %d and %d: ", 0, 8);
+                while (!scanner.hasNextInt()) {
+                    String input = scanner.next();
+                    System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, 8);
+                }
+                choice = scanner.nextInt();
+            } while (choice < 0 || choice > this.heroList.size()-1);
+            switch (choice){
+                case 0:
+                    heroMovePosition(h);
+                    turnTaken = true;
+                    break;
+                case 1:
+                    break;
+            }
         }
     }
 
     private void monsterTurn(Monster m) {
+        //search inRange()
+        //if false, move forward
+        //if isValid = false, check isValid for left and right space
         System.out.println("Monster "+m.getName()+"'s turn, to be implemented");
     }
+
+    private void heroMovePosition(Hero h){
+        while(true) {
+            System.out.println(Main.ANSI_GREEN + "Move your hero using W/A/S/D" + Main.ANSI_RESET);
+            //prepare values for next HeroTeam position
+            int newRow = h.getR();
+            int newCol = h.getC();
+
+            //scan command:
+            char input = scanner.next().charAt(0);
+            if (input == 'W' || input == 'w') {
+                newRow--;
+            } else if (input == 'A' || input == 'a') {
+                newCol--;
+            } else if (input == 'S' || input == 's') {
+                newRow++;
+            } else if (input == 'D' || input == 'd') {
+                newCol++;
+            } else {
+                System.out.println("Invalid command input! Use W/A/S/D keys to move");
+                continue;
+            }
+
+            if (lvWorld.isValidMove(newRow, newCol, h)) {
+                lvWorld.board[h.getR()][h.getC()].removeHero();
+                h.makeMove(newRow, newCol);
+                lvWorld.board[h.getR()][h.getC()].addHero(h);
+                return;
+            } else {
+                System.out.println("Invalid move, please try again");
+            }
+        }
+    }
+
 
     //a function to
     private boolean reachNexus(){
         for(Monster m: this.monsterTeam.getParty()){
-            if (m.getR()==0)
+            if (m.getR()==7)
                 return true;
         }
         for(Hero h:this.heroTeam.getParty()){
-            if (h.getR()==7)
+            if (h.getR()==0)
                 return true;
         }
         return false;
@@ -246,18 +261,27 @@ public class LegendsOfValorGame extends Game {
             switch (i){
                 //top lane
                 case 0:
-                    //
+                    if (lvWorld.board[0][1].getM()==null){
+                        chosen.makeMove(0, 1);
+                        lvWorld.board[0][1].addMonster(chosen);
+                    }
                     break;
                 //mid lane
                 case 1:
-                    //
+                    if (lvWorld.board[0][4].getM()==null){
+                        chosen.makeMove(0, 4);
+                        lvWorld.board[0][4].addMonster(chosen);
+                    }
                     break;
                 //bottom lane
                 case 2:
+                    if(lvWorld.board[0][7].getM()==null){
+                        chosen.makeMove(0, 7);
+                        lvWorld.board[0][7].addMonster(chosen);
+                    }
                     break;
             }
-            this.monsterList.remove(0);
-
+            this.monsterList.remove(chosen);
         }
     }
     private void readMonster(){
