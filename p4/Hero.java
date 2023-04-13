@@ -13,6 +13,7 @@ public class Hero extends GameCharacter{
     protected int experience;
     protected int level;
     protected int reviveCounter;
+    protected int def;
     private Weapon weapon;
     private Armor armor;
     //startingLane can be 't' 'm' 'b', storing the original lane of a hero
@@ -32,6 +33,7 @@ public class Hero extends GameCharacter{
         // health = level*100
         this.level = (experience/10)+1;
         this.health = level*100;
+        this.def = 0;
 //        this.heroInventory = new HeroInventory();
 
     }
@@ -180,7 +182,7 @@ public class Hero extends GameCharacter{
             System.out.println("Hero " +this.name + "has dodged the incoming attack!");
             return;
         }
-        int trueDamage = damage - this.armor.getDamageReduction();
+        int trueDamage = damage - this.armor.getDamageReduction() - this.def;
         System.out.println(Main.ANSI_RED+name+" received "+damage+"damage!"+Main.ANSI_RESET);
         setHealth(getHealth()-damage);
     }

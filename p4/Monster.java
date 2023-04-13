@@ -7,14 +7,14 @@ public class Monster extends GameCharacter{
 
     protected int level;
     protected int damage;
-    protected int defence;
+    protected int defense;
     protected int dodge_chance;
 
-    public Monster(String name, int level, int damage, int defence, int dodge_chance) {
+    public Monster(String name, int level, int damage, int defense, int dodge_chance) {
         this.name = name;
         this.level = level;
         this.damage = damage;
-        this.defence = defence;
+        this.defense = defense;
         this.dodge_chance = dodge_chance;
         this.health = level*100;
     }
@@ -29,7 +29,7 @@ public class Monster extends GameCharacter{
                 ", level=" + level +
                 ", health=" + health +
                 ",\n damage=" + damage +
-                ", defence=" + defence +
+                ", defence=" + defense +
                 ", dodge_chance=" + dodge_chance +
                 "}";
     }
@@ -57,6 +57,18 @@ public class Monster extends GameCharacter{
             return true;
         else
             return false;
+    }
+
+    public void reduceDamage() {
+        this.damage = (int) (this.damage * 0.95);
+    }
+
+    public void reduceDefense() {
+        this.defense = (int) (this.defense * 0.95);
+    }
+
+    public void reduceDodge() {
+        this.dodge_chance = (int) (this.dodge_chance * 0.95);
     }
 
     public int getLevel() {

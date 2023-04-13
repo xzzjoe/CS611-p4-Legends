@@ -1,6 +1,6 @@
 public interface Consumbale {
 
-    public abstract void consume();
+    void consume(Hero h);
 
 
 

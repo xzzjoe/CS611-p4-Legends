@@ -1,6 +1,6 @@
 public class Main {
     // TODO! use relative file path
-    static String SRC_FILEPATH = "C:\\Users\\16124\\Desktop\\cs611\\cs611A3\\src";
+
     //static values for colorful print
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";

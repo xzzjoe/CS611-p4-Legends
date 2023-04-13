@@ -9,7 +9,7 @@ public class Exoskeleton extends Monster{
                 ", level=" + level +
                 ", health=" + health +
                 ", damage=" + damage +
-                ", defence=" + defence +
+                ", defense=" + defense +
                 ", dodge_chance=" + dodge_chance +
                 "}";
     }
