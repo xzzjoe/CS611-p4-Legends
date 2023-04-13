@@ -219,12 +219,12 @@ public abstract class Hero extends GameCharacter{
         int trueDamage = damage - reduction;
         System.out.println(Main.ANSI_RED+name+" received "+trueDamage+"damage!"+Main.ANSI_RESET);
         if(this.health <= trueDamage){
-            Main.slash.play();
             try{
                 Main.slash.resetAudioStream();
             }catch(Exception e){
                 System.out.println("Could not reset audio exception");
             }
+            Main.slash.play();
             this.setReviveCounter(2);
         }
         setHealth(getHealth()-trueDamage);
@@ -235,7 +235,6 @@ public abstract class Hero extends GameCharacter{
     public boolean revive(){
         //Return True if is alive/revived , false if dead
         if(this.reviveCounter < 0){
-            System.out.println("rcytfu");
             return false;
         }
         else if(this.reviveCounter == 0){

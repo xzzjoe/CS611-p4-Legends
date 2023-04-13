@@ -42,7 +42,6 @@ public class AudioPlayer {
         //start the clip
         this.clip.start();
         this.status = "play";
-        this.clip.close();
     }
 
     public void playInfinite(){
@@ -118,6 +117,7 @@ public class AudioPlayer {
     public void resetAudioStream() throws UnsupportedAudioFileException, IOException,
             LineUnavailableException
     {
+        this.clip.close();
         this.audioInputStream = AudioSystem.getAudioInputStream(new File(this.filePath).getAbsoluteFile());
         this.clip.open(audioInputStream);
     }
