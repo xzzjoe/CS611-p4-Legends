@@ -241,12 +241,6 @@ public abstract class Hero extends GameCharacter{
         else if(this.reviveCounter == 0){
             System.out.println("Hero " +this.name + Main.ANSI_RED +" is revived! "+ Main.ANSI_RESET );
             this.reviveCounter = -1;
-            Main.respawn.play();
-            try{
-                Main.respawn.resetAudioStream();
-            }catch(Exception e){
-                System.out.println("Could not reset audio exception");
-            }
             return true;
         }
         else{
