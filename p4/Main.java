@@ -9,6 +9,7 @@ public class Main {
     public static final String ANSI_BLUE = "\u001B[34m";
 
     public static AudioPlayer slash;
+    public static AudioPlayer respawn;
 
     public static void main(String[] args) {
         getAudio();
@@ -21,6 +22,12 @@ public class Main {
             Main.slash = new AudioPlayer("configs/slash.wav");
         }catch (Exception e){
             System.out.println("Exception"+e);
+        }
+
+        try{
+            Main.respawn = new AudioPlayer("configs/respawn");
+        }catch (Exception e){
+            System.out.println("Respawn Exception" + e );
         }
     }
 }

@@ -47,6 +47,11 @@ public abstract class Monster extends GameCharacter implements Fightable{
             int trueDamage = damage - defense;
             if(this.getHealth() <= trueDamage){
                 Main.slash.play();
+                try{
+                    Main.slash.resetAudioStream();
+                }catch(Exception e){
+                    System.out.println("Could not reset audio exception");
+                }
             }
             setHealth(getHealth()-trueDamage);
         }
