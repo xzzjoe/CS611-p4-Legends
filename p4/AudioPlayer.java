@@ -33,12 +33,19 @@ public class AudioPlayer {
         // open audioInputStream to the clip
         clip.open(audioInputStream);
 
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+//        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+
 
 
     public void play() {
         //start the clip
+        clip.start();
+        status = "play";
+    }
+
+    public void playInfinite(){
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
         clip.start();
         status = "play";
     }
@@ -82,6 +89,7 @@ public class AudioPlayer {
         clip.close();
     }
 
+
     public void jump()throws UnsupportedAudioFileException, IOException,
             LineUnavailableException {
         //User facing function for jump
@@ -111,14 +119,7 @@ public class AudioPlayer {
     {
         audioInputStream = AudioSystem.getAudioInputStream(new File(this.filePath).getAbsoluteFile());
         clip.open(audioInputStream);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        clip.loop(1);
     }
 
-    public void help(){
-        System.out.println("1. pause");
-        System.out.println("2. resume");
-        System.out.println("3. restart");
-        System.out.println("4. stop");
-        System.out.println("5. Jump to specific time");
-    }
 }
