@@ -16,4 +16,16 @@ public class Koulou extends Space{
     public int getBUff(){
         return this.buff;
     }
+
+    @Override
+    public void addHero(Hero h){
+        this.h = h;
+        h.strengthBuff(this.buff);
+    }
+
+    @Override
+    public void removeHero(){
+        this.h.strengthDebuff(this.buff);
+        this.h = null;
+    }
 }

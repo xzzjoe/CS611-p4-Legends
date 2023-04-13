@@ -17,6 +17,18 @@ public class Cave extends Space{
         return this.buff;
     }
 
+    @Override
+    public void addHero(Hero h){
+        this.h = h;
+        h.agilBuff(this.buff);
+    }
+
+    @Override
+    public void removeHero(){
+        this.h.agilDebuff(this.buff);
+        this.h = null;
+    }
+
 
 
 }

@@ -18,4 +18,16 @@ public class Bush extends Space{
         return this.buff;
     }
 
+    @Override
+    public void addHero(Hero h){
+        this.h = h;
+        h.dexBuff(this.buff);
+    }
+
+    @Override
+    public void removeHero(){
+        this.h.dexDebuff(this.buff);
+        this.h = null;
+    }
+
 }
