@@ -180,9 +180,9 @@ public class LegendsOfValorWorld extends World {
             return false;
         }
         int newC = to.getC() + 1;
-        Space newSpace = board[to.getR()][newC];
-        if(newC < board[0].length && !(newSpace instanceof Inaccessible)){
-            if(newSpace.h != null){
+        if(newC < board[0].length){
+            Space newSpace = board[to.getR()][newC];
+            if(newSpace.h == null && !(newSpace instanceof Inaccessible)){
                 oldSpace.removeHero();
                 from.makeMove(to.getR(), newC);
                 newSpace.addHero(from);
@@ -190,9 +190,9 @@ public class LegendsOfValorWorld extends World {
             }
         }
         newC = to.getC() - 1;
-        newSpace = board[to.getR()][newC];
-        if(newC >= 0 && !(newSpace instanceof Inaccessible)){
-            if(newSpace.h != null){
+        if(newC >= 0 ){
+            Space newSpace = board[to.getR()][newC];
+            if(newSpace.h == null && !(newSpace instanceof Inaccessible)){
                 oldSpace.removeHero();
                 from.makeMove(to.getR(), newC);
                 newSpace.addHero(from);
@@ -200,9 +200,9 @@ public class LegendsOfValorWorld extends World {
             }
         }
         int newR = to.getR() - 1;
-        newSpace = board[newR][to.getC()];
         if(newR >= 0){
-            if(newSpace.h != null){
+            Space newSpace = board[newR][to.getC()];
+            if(newSpace.h == null){
                 oldSpace.removeHero();
                 from.makeMove(to.getR(), newC);
                 newSpace.addHero(from);
