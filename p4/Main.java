@@ -18,7 +18,7 @@ public class Main {
 
     private static void getAudio(){
         try{
-            slash = new AudioPlayer("configs/slash.wav");
+            Main.slash = new AudioPlayer("configs/slash.wav");
         }catch (Exception e){
             System.out.println("Exception");
         }
