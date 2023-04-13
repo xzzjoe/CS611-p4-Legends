@@ -195,7 +195,7 @@ public class Hero extends GameCharacter{
     }
 
     public double calcDogde() {
-        double res = Math.log(this.agility)/2;
+        double res = Math.log(this.agility)/20;
         return res;
     }
     public void takeDamage(int damage){
