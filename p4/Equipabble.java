@@ -1,4 +1,5 @@
 public interface Equipabble {
     boolean equip(Hero h);
-    void unequip();
+    void unequip(Hero h);
+    boolean checkEquipped();
 }

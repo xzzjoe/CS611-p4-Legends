@@ -11,7 +11,11 @@ public class MonsterTeam extends Team<Monster>{
     }
 
     @Override
-    public void showInfo() {
-
+    public String toString() {
+        String info = "";
+        for (Monster m : this.party) {
+            info += this.party.indexOf(m) + ": " + m.toString() +"\n";
+        }
+        return info;
     }
 }

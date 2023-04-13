@@ -6,7 +6,7 @@ public class Warrior extends Hero{
     public String toString() {
         return "Warrior\n{" +
                 "name=\"" + name + "\"" +
-                ", level=" + level +
+                ", \nlevel=" + level +
                 ", health=" + health +
                 ", mana=" + mana +
                 ", \nstrength=" + strength +
@@ -14,8 +14,9 @@ public class Warrior extends Hero{
                 ", dexterity=" + dexterity +
                 ", \nmoney=" + money +
                 ", experience=" + experience +
-//                ", \nweapon=" + getWeapon() +
-//                ", \narmor=" + getArmor() +
+                ", \nweapon=" + printWeapon() +
+                ", \narmor=" + printArmor() +
+                ", \nstartingLane=" + printStartingLane()+
                 "}";
     }
 }

@@ -2,9 +2,8 @@ import java.lang.Math;
 import java.util.Random;
 
 import static java.lang.Math.*;
-//TODO temporarily non-abstract
 
-public class Hero extends GameCharacter{
+public abstract class Hero extends GameCharacter{
     protected int mana;
     protected int strength;
     protected int agility;
@@ -18,7 +17,7 @@ public class Hero extends GameCharacter{
     private Armor armor;
     //startingLane can be 't' 'm' 'b', storing the original lane of a hero
     protected char startingLane;
-//    private HeroInventory heroInventory;
+    private HeroInventory heroInventory;
 
     public Hero(String name, int mana, int strength, int agility, int dexterity, int money, int experience) {
         this.name = name;
@@ -34,7 +33,7 @@ public class Hero extends GameCharacter{
         this.level = (experience/10)+1;
         this.health = level*100;
         this.def = 0;
-//        this.heroInventory = new HeroInventory();
+        this.heroInventory = new HeroInventory();
 
     }
 
@@ -53,39 +52,38 @@ public class Hero extends GameCharacter{
                 ", dexterity=" + dexterity +
                 ",\n money=" + money +
                 ", experience=" + experience +
-//                ", \nweapon=" + getWeapon() +
-//                ", \narmor=" + getArmor() +
                 "}";
     }
 
-    /* disabled: inventory related functions
+    // disabled: inventory related functions
 
-    public void addToInventory(GameItem item){
-        heroInventory.gameItemList.add(item);
+    public void addToInventory(Item item){
+        heroInventory.itemList.add(item);
     }
-    public GameItem removeFromInventory(int index){
-        GameItem item = heroInventory.gameItemList.get(index);
-        heroInventory.gameItemList.remove(item);
+
+    //probably useless, since we have new item function in item classes
+    public Item removeFromInventory(int index){
+        Item item = heroInventory.itemList.get(index);
+        heroInventory.itemList.remove(item);
         return item;
     }
 
-    public GameItem getFromInventory(int index){
-        GameItem item = heroInventory.gameItemList.get(index);
-        heroInventory.gameItemList.remove(item);
+    public Item getFromInventory(int index){
+        Item item = heroInventory.itemList.get(index);
         return item;
     }
 
     public String printAllItems(){
         String info = "";
-        if(heroInventory.gameItemList==null)
+        if(heroInventory.itemList==null)
             return "This hero's inventory is empty";
-        for (GameItem g : heroInventory.gameItemList) {
-            info += (heroInventory.gameItemList.indexOf(g) + ": " + g + "\n");
+        for (Item g : heroInventory.itemList) {
+            info += (heroInventory.itemList.indexOf(g) + ": " + g + "\n");
         }
         return info;
     }
 
-    public String getWeapon() {
+    public String printWeapon() {
         if (this.weapon == null){
             return "Unequipped";
         }
@@ -93,15 +91,21 @@ public class Hero extends GameCharacter{
             return weapon.toString();
     }
 
+    public Armor getArmor(){
+        return this.armor;
+    }
+    public Weapon getWeapon(){
+        return this.weapon;
+    }
 
     public void setWeapon(Weapon weapon) {
         if (this.weapon != null){
-            System.out.println("Already had "+getWeapon());
+            System.out.println("Already had "+ printWeapon());
         } else if (weapon.getLevel()>level) {
             System.out.println("Does not satisfy hero level requirement");
         } else{
             this.weapon = weapon;
-            System.out.println(Main.ANSI_YELLOW+"New Weapon equipped:\n"+getWeapon()+Main.ANSI_RESET);
+            System.out.println(Main.ANSI_YELLOW+"New Weapon equipped:\n"+ printWeapon()+Main.ANSI_RESET);
         }
     }
     public void setWeapon() {
@@ -114,7 +118,7 @@ public class Hero extends GameCharacter{
         }
     }
 
-    public String getArmor() {
+    public String printArmor() {
         if (this.armor == null){
             return "Unequipped";
         }
@@ -124,12 +128,12 @@ public class Hero extends GameCharacter{
 
     public void setArmor(Armor armor) {
         if(this.armor!=null){
-            System.out.println("Already had "+getArmor());
+            System.out.println("Already had "+ printArmor());
         } else if (armor.getLevel()>level) {
             System.out.println("Does not satisfy hero level requirement");
         } else{
             this.armor = armor;
-            System.out.println(Main.ANSI_YELLOW+"New Armor equipped:\n"+getArmor()+Main.ANSI_RESET);
+            System.out.println(Main.ANSI_YELLOW+"New Armor equipped:\n"+ printArmor()+Main.ANSI_RESET);
         }
     }
     public void setArmor() {
@@ -146,7 +150,7 @@ public class Hero extends GameCharacter{
         return heroInventory;
     }
 
-     */
+     //
     public void levelUp(){
         while(experience>=10){
             experience-=10;
@@ -233,7 +237,7 @@ public class Hero extends GameCharacter{
             return true;
         }
         else{
-            System.out.println("Hero " +this.name + " still has "+Main.ANSI_RED + this.reviveCounter  + Main.ANSI_RESET + "rounds to be revived.");
+            System.out.println("Hero " +this.name + " still has "+Main.ANSI_RED + this.reviveCounter  + Main.ANSI_RESET + " rounds to be revived.");
             reviveCounter--;
             return false;
         }
@@ -341,8 +345,20 @@ public class Hero extends GameCharacter{
         int dist = (int)floor(sqrt((pow(rDiff, 2.0) + pow(cDiff, 2.0))));
         return dist;
     }
+
     public char getStartingLane() {
         return startingLane;
+    }
+
+    public String printStartingLane() {
+        if(this.startingLane=='t')
+            return "Top Lane";
+        else if(this.startingLane=='m')
+            return "Mid Lane";
+        else if(this.startingLane=='b')
+            return "Bottom Lane";
+        else
+            return "Unassigned";
     }
 
     public void setStartingLane(char startingLane) {

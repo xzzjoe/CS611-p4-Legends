@@ -153,13 +153,14 @@ public class LegendsOfValorWorld extends World {
         }
     }
 
-    public void checkMarket(Hero hero) {
+    public boolean checkMarket(Hero hero) {
         //check current position is a market
         if(board[hero.getR()][hero.getC()].getClass()!=Nexus.class){
-            System.out.println("This space is not a market!");
+            System.out.println("This space is not a market(Nexus)!");
+            return false;
         }
         else{
-            board[hero.getR()][hero.getC()].addHero(hero);
+            return true;
         }
     }
     public boolean checkCommon(Hero hero){

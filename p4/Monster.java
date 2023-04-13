@@ -2,8 +2,7 @@ import java.util.Random;
 
 import static java.lang.Math.round;
 
-//TODO temporarily non-abstract
-public class Monster extends GameCharacter implements Fightable{
+public abstract class Monster extends GameCharacter implements Fightable{
 
     protected int level;
     protected int damage;

@@ -4,13 +4,12 @@ public class LegendsOfValorGame extends Game {
 
 
     //TODO make this class a singleton pattern
-    Scanner scanner;
-    LegendsOfValorWorld lvWorld;
-    HeroTeam heroTeam;
-    List<Hero> heroList;
-    List<Monster> monsterList;
-    MonsterTeam monsterTeam;
-    private int roundCounter;
+    private Scanner scanner;
+    private LegendsOfValorWorld lvWorld;
+    private HeroTeam heroTeam;
+    private List<Hero> heroList;
+    private List<Monster> monsterList;
+    private MonsterTeam monsterTeam;
 
     public LegendsOfValorGame (){
         // create World
@@ -21,13 +20,6 @@ public class LegendsOfValorGame extends Game {
         heroList.addAll(HeroLoader.loadHeroes("configs\\Paladins.txt", Paladin.class));
         heroList.addAll(HeroLoader.loadHeroes("configs\\Sorcerers.txt", Sorcerer.class));
         heroList.addAll(HeroLoader.loadHeroes("configs\\Warriors.txt", Warrior.class));
-        for (Hero h : heroList) {
-            System.out.println(heroList.indexOf(h) + ": " + h);
-        }
-        readMonster();
-        this.monsterTeam = new MonsterTeam(new ArrayList<>());
-        spawnMonster(3);
-
         //create hero team
 //        //ask user party size, heroes to choose
 //        System.out.println(Main.ANSI_GREEN+"Please enter the size of your party (1~3):"+Main.ANSI_RESET);
@@ -35,9 +27,8 @@ public class LegendsOfValorGame extends Game {
         int partySize = 3;
         List<Hero> chosenHeroes = new ArrayList<>();
         for (int i=0; i<partySize; i++){
-
             for (Hero h : heroList) {
-                System.out.println(heroList.indexOf(h) + ": " + h);
+                System.out.println(heroList.indexOf(h) + ": " + h.toString());
             }
             //Input validation: restrict user input between 0~sizeof(heroList)
             int choice = -1;
@@ -78,12 +69,16 @@ public class LegendsOfValorGame extends Game {
         }
         this.heroTeam = new HeroTeam(chosenHeroes);
 
-        System.out.println(Main.ANSI_YELLOW+"You created a party of heroes! They are:\n"+heroTeam.toString()+Main.ANSI_RESET);
+        System.out.println(Main.ANSI_YELLOW+"You created a party of heroes! They are:\n"+heroTeam+Main.ANSI_RESET);
+
+        readMonster();
+        this.monsterTeam = new MonsterTeam(new ArrayList<>());
+        spawnMonster(3, heroTeam.getAverageLevel());
 
     }
     public void startGame (){
         char input;
-        roundCounter = 1;
+        int roundCounter = 1;
         while (true) {
             //heroes start at their starting positions (0, 7), (3, 7), (6, 7)
             //monsters start at their starting positions (1, 0), (4, 0), (7, 0)
@@ -93,7 +88,7 @@ public class LegendsOfValorGame extends Game {
 //            MarketInventory testM = new MarketInventory<>();
 //            testM.displayItems(Potion.class);
             System.out.println("/************************************************/");
-            System.out.println("This is round "+ roundCounter );
+            System.out.println("This is round "+ roundCounter);
             //1. loop through HeroTeam, call heroTurn()
             System.out.println("/*******************Heroes' Turn*****************/");
             for(Hero h: heroTeam.getParty()){
@@ -105,6 +100,9 @@ public class LegendsOfValorGame extends Game {
                 else if(h.revive()){
                     h.respawn();
                     lvWorld.board[h.getR()][h.getC()].addHero(h);
+                    lvWorld.printBoard();
+                    heroTurn(h);
+                    lvWorld.printBoard();
                 }
                 else{
                     System.out.println(Main.ANSI_RED +"It's " + h.getName() + "'s turn, but " +h.getName()+ " is fainted and waiting to be revived"+Main.ANSI_RESET);
@@ -137,8 +135,8 @@ public class LegendsOfValorGame extends Game {
             heroTeam.restoreHpAndMana();
 
             //check for spawning new monsters
-            if(roundCounter%8==0)
-                spawnMonster(3);
+            if(roundCounter %8==0)
+                spawnMonster(3, heroTeam.getAverageLevel());
             roundCounter++;
         }
     }
@@ -154,29 +152,68 @@ public class LegendsOfValorGame extends Game {
                     "Please choose an action: \n" +
                     "0. Move\n" +
                     "1. Attack\n" +
-                    "2. Cast spell\n" +
+                    "2. Change equipment\n" +
                     "3. Use potion\n" +
-                    "4. Equip item\n" +
-                    "5. Display stats (won't consume this turn)\n" +
+                    "4. Cast spell\n" +
+                    "5. Display stats\n" +
                     "6. Teleport to another Lane\n" +
                     "7. Recall to Nexus\n" +
-                    "8. Quit Game\n" + Main.ANSI_RESET);
+                    "8. Buy/Sell at Nexus\n" +
+                    "9. Quit Game\n" + Main.ANSI_RESET);
             //scan next int input 0~7
             int choice = -1;
             do {
                 System.out.printf("Enter a number between %d and %d: ", 0, 8);
                 while (!scanner.hasNextInt()) {
                     String input = scanner.next();
-                    System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, 8);
+                    System.out.printf("\"%s\" is not a valid number. Please enter a number between %d and %d: ", input, 0, 9);
                 }
                 choice = scanner.nextInt();
-            } while (choice < 0 || choice > 8);
+            } while (choice < 0 || choice > 9);
             switch (choice){
+                //move
                 case 0:
                     turnTaken = heroMovePosition(h);
                     break;
+                //attack
                 case 1:
                     turnTaken = heroAttack(h);
+                    break;
+                //equip
+                case 2:
+                    turnTaken = heroEquip(h);
+                    break;
+                //todo potion
+                case 3:
+                    turnTaken = true;
+                    break;
+                //todo spell
+                case 4:
+                    turnTaken = true;
+                    break;
+                //info
+                case 5:
+                    showInfo();
+                    break;
+                //teleport
+                case 6:
+                    turnTaken = heroTeleport();
+                    break;
+                //recall
+                case 7:
+                    turnTaken = heroRecall;
+                    break;
+                //market nexus
+                case 8:
+                    if(lvWorld.checkMarket(h)){
+                        Nexus n = (Nexus) lvWorld.board[h.getR()][h.getC()];
+                        n.tradeWithHero(h);
+                    }
+                    break;
+                //quit game
+                case 9:
+                    System.out.println("Quiting game......");
+                    endGame();
                     break;
             }
         }
@@ -278,10 +315,89 @@ public class LegendsOfValorGame extends Game {
             if(!m.isAlive()){
                 lvWorld.board[m.getR()][m.getC()].removeMonster();
                 monsterTeam.getParty().remove(m);
+                //if win: earn money + exp and level up
+                System.out.println(Main.ANSI_YELLOW+"Monster "+m.getName()+" is defeated"+Main.ANSI_RESET);
+                //awards: money, exp, give to every hero
+                for(Hero h1: heroTeam.getParty()){
+                    int moneyEarned = m.getLevel()*100;
+                    int expGained = m.getLevel()*2;
+                    System.out.println(Main.ANSI_YELLOW+ h1.getName()+ " earn money: "+moneyEarned+", gain exp: "+expGained+Main.ANSI_RESET);
+                    h1.setMoney(h.getMoney()+moneyEarned);
+                    h1.setExperience(h.getExperience()+expGained);
+                    h1.levelUp();
+                }
+                System.out.println("==================================================");
             }
             return true;
         }
 
+    }
+
+    private boolean heroEquip(Hero h){
+        //todo ask equip or unequip
+        System.out.println(Main.ANSI_GREEN+"Choose equip or unequip an item: (0-equip, 1-unequip)\n"+Main.ANSI_RESET);
+        int next = scanner.nextInt();
+        int choice = -1;
+        //equip
+        if(next==0) {
+            System.out.println(Main.ANSI_GREEN + "Choose an equippable item (enter an index, or -1 to go back): \n" + Main.ANSI_RESET);
+            List<Equipabble> tempList = new ArrayList<>();
+            for(Item i: h.getHeroInventory().itemList){
+                if(i instanceof Equipabble){
+                    //only show unequipped items
+                    if(!((Equipabble) i).checkEquipped()) {
+                        tempList.add((Equipabble) i);
+                        System.out.println(h.getHeroInventory().itemList.indexOf(i) + ": " + i.getName());
+                    }
+                }
+            }
+            //if nothing is Equipabble & unequipped
+            if(tempList.size()==0){
+                System.out.println("Nothing in inventory is available to be equipped to "+h.getName()+", please try again");
+                return false;
+            }
+            choice = scanner.nextInt();
+            if (choice >= 0) {
+                Equipabble target =(Equipabble) h.getFromInventory(choice);
+                return target.equip(h);
+            }
+            else
+                return false;
+        }
+        //else unequip
+        else{
+            System.out.println("Choose an equipment to unequip by index:");
+            //print the list of equipped
+            List<Equipabble> tempList = new ArrayList<>();
+            for(Item i: h.getHeroInventory().itemList){
+                if(i instanceof Equipabble){
+                    if(((Equipabble) i).checkEquipped()) {
+                        tempList.add((Equipabble) i);
+                        System.out.println(h.getHeroInventory().itemList.indexOf(i) + ": " + i.getName());
+                    }
+                }
+            }
+            //if nothing is equipped
+            if(tempList.size()==0){
+                System.out.println("Nothing is equipped to "+h.getName()+", please try again");
+                return false;
+            }
+            //check input and get equipment within index of heroInventory
+            choice = scanner.nextInt();
+            Equipabble target =(Equipabble) h.getFromInventory(choice);
+            target.unequip(h);
+            return true;
+
+        }
+    }
+
+    private boolean heroTeleport(Hero h, Hero to){
+
+    }
+
+    private boolean heroRecall(Hero h){
+        //ask for
+        lvWorld.recall(h);
     }
 
     //a function to
@@ -316,13 +432,15 @@ public class LegendsOfValorGame extends Game {
         System.exit(0);
     }
 
-    private void spawnMonster(int num){
+    private void spawnMonster(int num, int averageHeroLevel){
         for(int i=0; i<num; i++){
             if(this.monsterList.size()==0)
                 //read a new monsterList when the previous one became empty
                 readMonster();
             Monster chosen = this.monsterList.get(0);
             this.monsterTeam.getParty().add(chosen);
+            //todo scale monster stats according to hero average level
+            chosen.setHealth(averageHeroLevel*200);
             //initialize monster starting position
             switch (i){
                 //top lane
@@ -362,46 +480,18 @@ public class LegendsOfValorGame extends Game {
         Collections.shuffle(monsterList, new Random());
     }
 
-//    //TODO team info, use items/equipments
-//    public void showInfo() {
-//        System.out.println("==================================================\nHero Team info:\n" +
-//                heroTeam.toString() +
-//                "==================================================");
-//        System.out.println(Main.ANSI_GREEN+"Do you want to use items(Equipments or Potions)? Choose a Hero index to access their inventory, or -1 to go back\n"+Main.ANSI_RESET);
-//        char input = scanner.next().charAt(0);
-//        int heroIndex;
-//        try {
-//            heroIndex = Integer.parseInt(String.valueOf(input));
-//        } catch (Exception e) {
-//            System.out.println("Input format is wrong, please try again:");
-//            return;
-//        }
-//        Hero h = heroTeam.getParty().get(heroIndex);
-//        System.out.println("Choose an item (enter an index, or -1 to go back): \n" + h.printAllItems());
-//        int itemIndex = scanner.nextInt();
-//        if (itemIndex >= 0) {
-//            GameItem e = h.getFromInventory(itemIndex);
-//            if (e instanceof Weapon) {
-//                h.setWeapon((Weapon) e);
-//            } else if (e instanceof Armor) {
-//                h.setArmor((Armor) e);
-//            } else if (e instanceof Potion) {
-//                //choose a target to use potion
-//                System.out.println("Choose a target (enter index): \n"+heroTeam.toString());
-//                int targetIndex = scanner.nextInt();
-//                Hero potionTarget = heroTeam.getParty().get(targetIndex);
-//                //perform move
-//                h.usePotion((Potion)e, potionTarget);
-//            } else {
-//                //no spell
-//                System.out.println("Input is wrong, please try again");
-//            }
-//        }
-//    }
+    //team info
+    public void showInfo() {
+        System.out.println("==================================================\nHero Team info:\n" +
+                heroTeam.toString() +
+                "==================================================");
+        //todo print inventories?
+        System.out.println("==================================================\nMonster Team info:\n" +
+                monsterTeam.toString() +
+                "==================================================");
+
+    }
 //
-//    public void checkMarket(){
-//        lvWorld.checkMarket(heroTeam);
-//    }
 //
 //    public void checkCommon() {
 //        //check if this is a Common Space

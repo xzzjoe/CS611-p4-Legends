@@ -10,10 +10,6 @@ public class HeroTeam extends Team<Hero>{
         return this.party;
     }
 
-    @Override
-    public void showInfo() {
-
-    }
 
     public void restoreHpAndMana(){
         for(Hero h: party){
@@ -28,6 +24,13 @@ public class HeroTeam extends Team<Hero>{
         }
     }
 
+    public int getAverageLevel(){
+        int count = 0;
+        for(Hero h: party){
+            count += h.getLevel();
+        }
+        return count/party.size();
+    }
     @Override
     public String toString() {
         String info = "";

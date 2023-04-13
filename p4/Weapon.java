@@ -44,19 +44,29 @@ public class Weapon extends Item implements Equipabble{
     }
 
 
-    @Override
-    public boolean equip(Hero h) {
-        if (h.level < this.level){
+    public boolean equip(Hero h){
+        if (this.equipped){
+            System.out.println(this.name+" has already been equipped to hero");
+            return false;
+        }else if(h.level < this.level){
             System.out.println("Hero level not enough to equip weapon " + this.name);
             return false;
         }
+        else if(h.getWeapon()!=null){
+            System.out.println("Hero already have a weapon");
+            return false;
+        }
+        h.setWeapon(this);
         this.equipped = true;
         return true;
     }
 
-    @Override
-    public void unequip() {
+    public void unequip(Hero h){
+        h.setWeapon();
         this.equipped = false;
+    }
 
+    public boolean checkEquipped(){
+        return this.equipped;
     }
 }

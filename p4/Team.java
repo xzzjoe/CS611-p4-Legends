@@ -9,5 +9,4 @@ public abstract class Team<T extends GameCharacter> {
 
     public abstract List<T> getParty();
 
-    public abstract void showInfo();
 }
