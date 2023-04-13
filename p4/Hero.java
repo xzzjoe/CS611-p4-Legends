@@ -220,11 +220,10 @@ public abstract class Hero extends GameCharacter{
         System.out.println(Main.ANSI_RED+name+" received "+trueDamage+"damage!"+Main.ANSI_RESET);
         if(this.health <= trueDamage){
             try{
-                Main.slash.resetAudioStream();
+                Main.slash.restart();
             }catch(Exception e){
-                System.out.println("Could not reset audio exception");
+                System.out.println("Could not restart sound exception" + e);
             }
-            Main.slash.play();
             this.setReviveCounter(2);
         }
         setHealth(getHealth()-trueDamage);
