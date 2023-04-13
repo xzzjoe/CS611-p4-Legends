@@ -120,7 +120,6 @@ public class AudioPlayer {
     {
         audioInputStream = AudioSystem.getAudioInputStream(new File(this.filePath).getAbsoluteFile());
         clip.open(audioInputStream);
-        clip.loop(1);
     }
 
 }
