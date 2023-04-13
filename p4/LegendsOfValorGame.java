@@ -102,6 +102,10 @@ public class LegendsOfValorGame extends Game {
                     heroTurn(h);
                     lvWorld.printBoard();
                 }
+                else if(h.revive()){
+                    h.respawn();
+                    lvWorld.board[h.getR()][h.getC()].addHero(h);
+                }
                 else{
                     System.out.println(Main.ANSI_RED +"It's " + h.getName() + "'s turn, but " +h.getName()+ " is fainted and waiting to be revived"+Main.ANSI_RESET);
 //                    todo h.reviveAtNexus();
@@ -145,7 +149,6 @@ public class LegendsOfValorGame extends Game {
         boolean turnTaken = false;
         //if this hero is reviving, consume this turn
         //todo add prompt inside revive(), and
-        turnTaken = !(h.revive());
         while (!turnTaken) {
             System.out.println(Main.ANSI_GREEN + "It's " + h.getName() + "'s turn.\n" +
                     "Please choose an action: \n" +

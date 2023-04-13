@@ -225,11 +225,11 @@ public class Hero extends GameCharacter{
     public boolean revive(){
         //Return True if is alive/revived , false if dead
         if(this.reviveCounter < 0){
-            return true;
+            return false;
         }
         else if(this.reviveCounter == 0){
+            System.out.println("Hero " +this.name + Main.ANSI_RED +" is revived! "+ Main.ANSI_RESET );
             this.reviveCounter = -1;
-            respawn();
             return true;
         }
         else{
