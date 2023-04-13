@@ -214,8 +214,12 @@ public class Hero extends GameCharacter{
         }
         int trueDamage = damage - reduction;
         System.out.println(Main.ANSI_RED+name+" received "+trueDamage+"damage!"+Main.ANSI_RESET);
+        if(this.health < trueDamage){
+            this.setReviveCounter(2);
+        }
         setHealth(getHealth()-trueDamage);
     }
+
 
 
     public boolean revive(){
@@ -263,6 +267,10 @@ public class Hero extends GameCharacter{
     }
     */
 
+
+    public void setReviveCounter(int rounds){
+        this.reviveCounter = rounds;
+    }
     public int getLevel() {
         return level;
     }
